@@ -1,6 +1,6 @@
 CC	= gcc
 CFLAGS	= -Wall -I../include
-LDFLAGS	= -L../lib
+LDFLAGS	= -L../lib -lev3dev-c
 OBJ	= main.o
 
 RPATH	= ../start_robo
