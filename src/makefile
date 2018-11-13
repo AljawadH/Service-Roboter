@@ -1,9 +1,9 @@
-CC	= gcc
+CC	= arm-linux-gnueabi-gcc
 CFLAGS	= -Wall -I../include
-LDFLAGS	= -lev3dev-c
+LDFLAGS	= -L../lib -lev3dev-c -Wl,-rpath ../lib
 OBJ	= main.o
 
-RPATH	= ../start_robo
+RPATH	= start_robo
 
 $(RPATH) : $(OBJ)
 	$(CC) $(LDFLAGS) -o $@ $(OBJ)

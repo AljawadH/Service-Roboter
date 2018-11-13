@@ -4,8 +4,11 @@ cd ..;
 git clone https://github.com/in4lio/ev3dev-c.git;
 cd ev3dev-c;
 git submodule update --init --recursive;
-cd source/ev3;
-make;
-sudo make install;
-make shared;
-sudo make shared-install;
+
+#docker betreten und den rest im docker ausfueren
+
+#cd source/ev3;
+#make;
+#sudo make install;
+#make shared;
+#sudo make shared-install;
