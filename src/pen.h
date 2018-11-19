@@ -9,6 +9,8 @@ typedef struct {
     
     uint8_t sn;
     int max_speed;
+
+    bool isup;
 } pen_t;
 
 
@@ -22,7 +24,6 @@ void move_pen_down(pen_t* pen);
 
 void move_pen_up(pen_t* pen);
 
-bool pen_up();
 
 
 #endif
