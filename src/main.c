@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include <brick.h>
+#include "ev3.h"
 
-
+#include "brick.h"
+#include "pen.h"
 
 // gerade Linie
 void moveForward(int distance){
@@ -31,13 +32,21 @@ void curveRight(int radius, int degree){
 
 int main(){
     
-    brick_init();
-    //code
     
-    
-    
-    //code ende
-    brick_uninit();
+    pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
+
+    test_pen(pen);
+
+
+    remove_pen(pen);
+
+
+    //brick_init();
+
+
+
+
+    //brick_uninit();
     return 0;
 }
 
