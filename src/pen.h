@@ -18,9 +18,9 @@ void remove_pen(pen_t* pen);
 
 void test_pen(pen_t* pen);
 
-void move_pen_down();
+void move_pen_down(pen_t* pen);
 
-void move_pen_up();
+void move_pen_up(pen_t* pen);
 
 bool pen_up();
 

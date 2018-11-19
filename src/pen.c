@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <unistd.h>
+
 pen_t* create_pen(INX_T type) {
 
     if(ev3_tacho_init() == -1) {
@@ -29,11 +31,33 @@ void remove_pen(pen_t* pen) {
     free(pen);
 }
 
-void move_pen_down() {
+void move_pen_down(pen_t* pen) {
+
+    set_tacho_ramp_up_sp(pen->sn, 0);
+    set_tacho_ramp_down_sp(pen->sn, 0);
+
+    set_tacho_speed_sp(pen->sn, 200);
+
+    set_tacho_position_sp(pen->sn, 50);
+    
+    set_tacho_command_inx(pen->sn, TACHO_RUN_TO_REL_POS);
+
+    usleep(1000);
 
 }
 
-void move_pen_up() {
+void move_pen_up(pen_t* pen) {
+
+    set_tacho_ramp_up_sp(pen->sn, 0);
+    set_tacho_ramp_down_sp(pen->sn, 0);
+
+    set_tacho_speed_sp(pen->sn, 200);
+
+    set_tacho_position_sp(pen->sn, 50);
+    
+    set_tacho_command_inx(pen->sn, TACHO_RUN_TO_REL_POS);
+
+    usleep(1000);
 
 }
 
@@ -46,7 +70,13 @@ bool pen_up() {
 void test_pen(pen_t* pen) {
 
     int buf;
-    printf("test: pen tacho position=%d returned buffer value=%d\n", (int)get_tacho_position(pen->sn, &buf), buf);
+    get_tacho_position_sp(pen->sn, &buf);
+    printf("test: pen tacho position=%d max_speed=%d\n", buf, pen->max_speed);
+
+    move_pen_up(pen);
+
+    move_pen_down(pen);
+
     
 }
 
