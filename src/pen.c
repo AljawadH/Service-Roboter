@@ -38,7 +38,7 @@ pen_t* create_pen(INX_T type) {
 }
 
 void remove_pen(pen_t* pen) {
-
+    printf("pen removed\n");
     free(pen);
 }
 

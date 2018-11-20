@@ -10,7 +10,7 @@ typedef struct {
 } motor_t;
 
 
-motor_t* create_motor(INX_T type, uint8_t port);
+motor_t* create_motor(INX_T type, uint8_t port, uint8_t extport);
 
 void remove_motor(motor_t* motor);
 

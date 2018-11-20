@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "ev3.h"
 #include "ev3_port.h"
+#include "ev3_port.h"
+
 #include "brick.h"
 #include "pen.h"
 #include "movement.h"
@@ -28,6 +30,7 @@ void turnRightOnPoint(int degree)
 
 int main(){
 
+    motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTA, OUTPUT_A);
 
       pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
       test_pen(pen);
@@ -38,7 +41,7 @@ int main(){
       remove_motor(left_m);
       //remove_motor(right_m);
 
-      remove_pen(pen);
+    remove_pen(pen);
 
 
     return 0;
