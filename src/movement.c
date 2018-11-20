@@ -57,6 +57,10 @@ void rotate(motor_t* left, motor_t* right, int16_t deg) {
 
 }
 
-void curve(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
+void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
+    
+}
+
+void curveRight(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
 
 }
