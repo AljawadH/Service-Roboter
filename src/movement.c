@@ -11,6 +11,10 @@
 static const int MOVE_RAMP_UP = 200;
 static const int MOVE_RAMP_DOWN = 200;
 
+#define MOTOR_LEFT OUTA
+#define MOTOR_RIGHT OUTB
+#define MOTOR_BOTH ( MOTOR_LEFT | MOTOR_RIGHT ) 
+
 motor_t* create_motor(INX_T type, uint8_t port) {
 
     if(ev3_tacho_init() == -1) {
@@ -43,13 +47,37 @@ motor_t* create_motor(INX_T type, uint8_t port) {
     printf("motor initialized and set to 0\n");
 
     return NULL;
-}
+}    
+
 
 void remove_motor(motor_t* motor) {
     free(motor);
 }
 
-void move(motor_t* left_m, motor_t* right_m, int8_t dist) {
+//void move(motor_t* left_m, motor_t* right_m, int8_t dist) {
+void move(int distance ) {
+		uint8_t sn;
+	if (tacho_is_plugged(MOTOR_BOTH, TACHO_TYPE_NONE)){
+		int max_speed=tacho_get_max_speed(MOTOR_RIGHT,0);
+		tacho_reset(MOTOR_BOTH);
+		} 
+		else 
+			printf ("Motors not found\n"); 
+		
+		int time = distance / max_speed;
+		
+			if ( ev3_search_tacho( MOTOR_BOTH, &sn, 0 )) {
+				set_tacho_stop_action_inx( sn, TACHO_COAST );
+				set_tacho_speed_sp( sn, max_speed );
+				set_tacho_time_sp( sn, time  );
+				set_tacho_ramp_up_sp( sn, 200 );
+				set_tacho_ramp_down_sp( sn, 200 );
+				set_tacho_command_inx( sn, TACHO_RUN_TIMED );
+				Sleep ( 100 ) ;
+				}
+	}
+	
+			
 
 }
 
