@@ -1,13 +1,10 @@
 #include "pen.h"
 
 #include "ev3.h"
-#include "ev3_port.h"
 #include "ev3_tacho.h"
 
 #include <stdlib.h>
 #include <stdio.h>
-
-#include <unistd.h>
 
 
 static const int PEN_DOWN_POSITION = -140;

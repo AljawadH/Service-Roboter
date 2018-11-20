@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include "ev3.h"
+#include "ev3_port.h"
 
 #include "brick.h"
+
+
+
 #include "pen.h"
+#include "movement.h"
 
 
-// gerade Linie
-void moveForward(int distance){
- 
-}
 /*
 //nach links drehen um eigene Achse
 void turnLeftOnPoint(int degree)
@@ -26,33 +27,19 @@ void turnRightOnPoint(int degree)
    tacho_run_forever( MOTOR_BOTH );    
 }
 */
-//Linkskurve
-void curveLeft(int radius, int degree){
-    
-}
-
-//Rechtskurve
-void curveRight(int radius, int degree){
-    
-}
 
 
 int main(){
     
-    
     pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
-
     test_pen(pen);
+
+    //motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTA);
 
 
     remove_pen(pen);
+    //remove_motor(left_m);
 
 
-    //brick_init();
-
-
-
-
-    //brick_uninit();
     return 0;
 }

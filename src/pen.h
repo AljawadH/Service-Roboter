@@ -9,8 +9,8 @@ typedef struct {
     
     uint8_t sn;
     int max_speed;
-
     bool isup;
+    
 } pen_t;
 
 
