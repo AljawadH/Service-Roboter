@@ -6,16 +6,13 @@
 #include "ev3_port.h"
 #include <stdlib.h>
 #include <stdio.h>
-
+#include "brick.h"
+#include <unistd.h>
 
 static const int MOVE_RAMP_UP = 200;
 static const int MOVE_RAMP_DOWN = 200;
 
-#define MOTOR_LEFT OUTA
-#define MOTOR_RIGHT OUTB
-#define MOTOR_BOTH ( MOTOR_LEFT | MOTOR_RIGHT ) 
-
-motor_t* create_motor(INX_T type, uint8_t port) {
+motor_t* create_motor(INX_T type, uint8_t port, uint8_t extport) {
 
     if(ev3_tacho_init() == -1) {
         printf("motor could not be created -- no tacho motor found\n");
@@ -26,7 +23,7 @@ motor_t* create_motor(INX_T type, uint8_t port) {
 
 
     //TODO: search extended port number
-    ev3_search_tacho_plugged_in(port, MS_NXTMMX_OUT_PORT_TACHO_MOTOR, &(motor->sn), 0);
+    ev3_search_tacho_plugged_in(port, extport, &(motor->sn), 0);
     get_tacho_max_speed(motor->sn, &(motor->max_speed));
 
     printf("motor created\n");
@@ -49,35 +46,39 @@ motor_t* create_motor(INX_T type, uint8_t port) {
     return NULL;
 }    
 
-
 void remove_motor(motor_t* motor) {
     free(motor);
 }
 
 //void move(motor_t* left_m, motor_t* right_m, int8_t dist) {
 void move(int distance ) {
+
+
+
 		uint8_t sn;
-	if (tacho_is_plugged(MOTOR_BOTH, TACHO_TYPE_NONE)){
-		int max_speed=tacho_get_max_speed(MOTOR_RIGHT,0);
-		tacho_reset(MOTOR_BOTH);
+        int max_speed = 0;
+	if (tacho_is_plugged(OUTA | OUTD, LEGO_EV3_L_MOTOR)){
+		max_speed = get_tacho_max_speed(sn , 0);
+		tacho_reset(OUTA | OUTD);
 		} 
-		else 
-			printf ("Motors not found\n"); 
+		else printf ("Motors not found\n"); 
 		
+
+
 		int time = distance / max_speed;
 		
-			if ( ev3_search_tacho( MOTOR_BOTH, &sn, 0 )) {
-				set_tacho_stop_action_inx( sn, TACHO_COAST );
-				set_tacho_speed_sp( sn, max_speed );
-				set_tacho_time_sp( sn, time  );
-				set_tacho_ramp_up_sp( sn, 200 );
-				set_tacho_ramp_down_sp( sn, 200 );
-				set_tacho_command_inx( sn, TACHO_RUN_TIMED );
-				Sleep ( 100 ) ;
-				}
-	}
-	
-			
+
+
+        printf("time= %d\tmaxh_speed= %d\n", time, max_speed);
+		if ( ev3_search_tacho( OUTA | OUTD, &sn, 0 )) {
+            set_tacho_stop_action_inx( sn, TACHO_COAST );
+            set_tacho_speed_sp( sn, max_speed );
+            set_tacho_time_sp( sn, time  );
+            set_tacho_ramp_up_sp( sn, 200 );
+            set_tacho_ramp_down_sp( sn, 200 );
+            set_tacho_command_inx( sn, TACHO_RUN_TIMED );
+            usleep(2000) ;
+        }	
 
 }
 

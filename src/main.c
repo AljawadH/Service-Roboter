@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "ev3.h"
 #include "ev3_port.h"
+#include "ev3_port.h"
 
 #include "brick.h"
 
@@ -36,11 +37,13 @@ int main(){
     pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
     test_pen(pen);
 
-    //motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTA);
+    motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTA, OUTPUT_A);
 
 
     remove_pen(pen);
-    //remove_motor(left_m);
+    remove_motor(left_m);
+
+
 
 
     return 0;
