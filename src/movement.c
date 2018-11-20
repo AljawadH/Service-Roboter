@@ -83,13 +83,37 @@ void move(int distance ) {
 }
 
 void rotate(motor_t* left, motor_t* right, int16_t deg) {
-
-}
-
-void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
     
 }
 
-void curveRight(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
+void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
+    float nullRad= 10.2;
 
+    if(rad<=0){return;}
+    if (rad<nullRad){
+        float linkesRad = (rad-nullRad) * -1;
+        float rechtesRad = rad + nullRad;
+        set_tacho_speed_sp(left->sn, (left->max_speed/50 * linkesRad) * -1);
+        set_tacho_speed_sp(right->sn, right->max_speed/50 * rechtesRad);
+        tacho_run_forever(left->sn);
+        tacho_run_forever(right->sn);
+        sleep(2000); //gyro abbruch TODO
+        tacho_stop(left->sn);
+        tacho_stop(right->sn);
+    }else if(rad>nullRad){
+        float linkesRad = rad-nullRad;
+        float rechtesRad = rad + nullRad;
+        set_tacho_speed_sp(left->sn, left->max_speed/50 * linkesRad);
+        set_tacho_speed_sp(right->sn, right->max_speed/50 * rechtesRad);
+        tacho_run_forever(left->sn);
+        tacho_run_forever(right->sn);
+        sleep(2000); //gyro abbruch TODO
+        tacho_stop(left->sn);
+        tacho_stop(right->sn);
+
+    }
+    
+    
+    set_tacho_speed_sp(left->sn, left->max_speed/10);
+    set_tacho_speed_sp(right->sn, right->max_speed/10);
 }
