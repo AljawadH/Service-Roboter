@@ -47,10 +47,16 @@ motor_t* create_motor(INX_T type, uint8_t port) {
     printf("motor initialized and set to 0\n");
 
     return NULL;
+}    
+
+
+void remove_motor(motor_t* motor) {
+    free(motor);
 }
 
-void moveForward(int distance){
-	uint8_t sn;
+//void move(motor_t* left_m, motor_t* right_m, int8_t dist) {
+void move(int distance ) {
+		uint8_t sn;
 	if (tacho_is_plugged(MOTOR_BOTH, TACHO_TYPE_NONE)){
 		int max_speed=tacho_get_max_speed(MOTOR_RIGHT,0);
 		tacho_reset(MOTOR_BOTH);
@@ -72,14 +78,6 @@ void moveForward(int distance){
 	}
 	
 			
-    
-
-
-void remove_motor(motor_t* motor) {
-    free(motor);
-}
-
-void move(motor_t* left_m, motor_t* right_m, int8_t dist) {
 
 }
 

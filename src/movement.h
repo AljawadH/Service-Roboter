@@ -14,7 +14,8 @@ motor_t* create_motor(INX_T type, uint8_t port);
 
 void remove_motor(motor_t* motor);
 
-void move(motor_t* left_m, motor_t* right_m, int8_t dist);
+//void move(motor_t* left_m, motor_t* right_m, int8_t dist);
+void move ( int distance ) ; 
 
 void rotate(motor_t* left, motor_t* right, int16_t deg);
 
