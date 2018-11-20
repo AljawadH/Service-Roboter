@@ -54,13 +54,11 @@ void move(motor_t* left_m, motor_t* right_m, int8_t dist) {
 }
 
 void rotate(motor_t* left, motor_t* right, int16_t deg) {
-
+    set_tacho_speed_sp(left->sn, left->max_speed);
+    set_tacho_speed_sp(right->sn, right->max_speed * -1);
 }
 
-void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
-    
-}
-
-void curveRight(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
-
+void curve(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
+    set_tacho_speed_sp(left->sn, left->max_speed);
+    set_tacho_speed_sp(right->sn, right->max_speed);
 }
