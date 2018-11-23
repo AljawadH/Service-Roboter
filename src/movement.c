@@ -22,7 +22,7 @@ motor_t* create_motor(INX_T type, uint8_t port) {
     motor_t* motor = (motor_t*) malloc(sizeof(motor_t));
 
 
-    //TODO: search extended port number
+    
     ev3_search_tacho_plugged_in(port, EXT_PORT__NONE_, &(motor->sn), 0);
     get_tacho_max_speed(motor->sn, &(motor->max_speed));
 
