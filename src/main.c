@@ -7,41 +7,28 @@
 #include "pen.h"
 #include "movement.h"
 
-/*
-//nach links drehen um eigene Achse
-void turnLeftOnPoint(int degree)
-{
-   tacho_set_speed_sp( MOTOR_LEFT, degree );
-   tacho_set_speed_sp( MOTOR_RIGHT, -degree );
-   tacho_run_forever( MOTOR_BOTH );
-}
-
-//nach rechts drehen um eigene Achse
-void turnRightOnPoint(int degree)
-{
-   tacho_set_speed_sp( MOTOR_RIGHT, degree );
-   tacho_set_speed_sp( MOTOR_LEFT, -degree );
-   tacho_run_forever( MOTOR_BOTH );    
-}
-*/
-
 
 
 
 int main(){
 
-    motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTA, OUTPUT_A);
+    motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_A);
+    motor_t* right_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_D);
 
-      pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
-      test_pen(pen);
+    pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
+    //move_pen_down(pen);
 
-      motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTA);
-      //motor_t* right_m = create_motor(LEGO_EV3_L_MOTOR, OUTD);
+    //rotate(left_m, right_m, 30);
+    move(left_m, right_m, 500);
 
-      remove_motor(left_m);
-      //remove_motor(right_m);
+    rotate(left_m, right_m, -300);
+
+
+    //move_pen_up(pen);
 
     remove_pen(pen);
+    remove_motor(left_m);
+    remove_motor(right_m);
 
 
     return 0;

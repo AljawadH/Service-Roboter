@@ -12,7 +12,7 @@
 static const int MOVE_RAMP_UP = 200;
 static const int MOVE_RAMP_DOWN = 200;
 
-motor_t* create_motor(INX_T type, uint8_t port, uint8_t extport) {
+motor_t* create_motor(INX_T type, uint8_t port) {
 
     if(ev3_tacho_init() == -1) {
         printf("motor could not be created -- no tacho motor found\n");
@@ -23,66 +23,86 @@ motor_t* create_motor(INX_T type, uint8_t port, uint8_t extport) {
 
 
     //TODO: search extended port number
-    ev3_search_tacho_plugged_in(port, extport, &(motor->sn), 0);
+    ev3_search_tacho_plugged_in(port, EXT_PORT__NONE_, &(motor->sn), 0);
     get_tacho_max_speed(motor->sn, &(motor->max_speed));
 
     printf("motor created\n");
 
-    set_tacho_position_sp(motor->sn, 0);
-    set_tacho_ramp_up_sp(motor->sn, MOVE_RAMP_UP);
-    set_tacho_ramp_down_sp(motor->sn, MOVE_RAMP_DOWN);
-    set_tacho_command_inx(motor->sn, TACHO_RUN_TO_ABS_POS);
+    printf("motor initialized\n");
 
-    FLAGS_T flag;
-    do {
-        get_tacho_state_flags(motor->sn, &flag);
-        if(flag == TACHO_RAMPING) {
-            set_tacho_command_inx(motor->sn, TACHO_STOP);
-        }
-    } while (flag);
-
-    printf("motor initialized and set to 0\n");
-
-    return NULL;
+    return motor;
 }    
 
 void remove_motor(motor_t* motor) {
     free(motor);
 }
 
-//void move(motor_t* left_m, motor_t* right_m, int8_t dist) {
-void move(int distance ) {
+void move(motor_t* left_m, motor_t* right_m, int dist) {
+
+    set_tacho_position_sp(left_m->sn, -dist);
+    set_tacho_speed_sp(left_m->sn, left_m->max_speed / 15);
+    set_tacho_ramp_up_sp(left_m->sn, MOVE_RAMP_UP);
+    set_tacho_ramp_down_sp(left_m->sn, MOVE_RAMP_DOWN);
+
+    set_tacho_position_sp(right_m->sn, -dist);
+    set_tacho_speed_sp(right_m->sn, right_m->max_speed / 15);
+    set_tacho_ramp_up_sp(right_m->sn, MOVE_RAMP_UP);
+    set_tacho_ramp_down_sp(right_m->sn, MOVE_RAMP_DOWN);
 
 
-
-		uint8_t sn;
-        int max_speed = 0;
-	if (tacho_is_plugged(OUTA | OUTD, LEGO_EV3_L_MOTOR)){
-		max_speed = get_tacho_max_speed(sn , 0);
-		tacho_reset(OUTA | OUTD);
-		} 
-		else printf ("Motors not found\n"); 
-		
+    set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
+    set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
 
 
-		int time = distance / max_speed;
-		
+    FLAGS_T flag_left;
+    FLAGS_T flag_right;
+    do {
+        get_tacho_state_flags(left_m->sn, &flag_left);
+        get_tacho_state_flags(right_m->sn, &flag_right);
+        if(flag_left == TACHO_RAMPING) {
+            set_tacho_command_inx(left_m->sn, TACHO_STOP);
+        }
+        if(flag_right == TACHO_RAMPING) {
+            set_tacho_command_inx(right_m->sn, TACHO_STOP);
+        }
+    } while (flag_left || flag_right);
 
-
-        printf("time= %d\tmaxh_speed= %d\n", time, max_speed);
-		if ( ev3_search_tacho( OUTA | OUTD, &sn, 0 )) {
-            set_tacho_stop_action_inx( sn, TACHO_COAST );
-            set_tacho_speed_sp( sn, max_speed );
-            set_tacho_time_sp( sn, time  );
-            set_tacho_ramp_up_sp( sn, 200 );
-            set_tacho_ramp_down_sp( sn, 200 );
-            set_tacho_command_inx( sn, TACHO_RUN_TIMED );
-            usleep(2000) ;
-        }	
-
+    printf("moved rel distance=%d\n", dist);
 }
 
-void rotate(motor_t* left, motor_t* right, int16_t deg) {
+
+void rotate(motor_t* left_m, motor_t* right_m, int deg) {
+
+    set_tacho_position_sp(left_m->sn, deg);
+    set_tacho_speed_sp(left_m->sn, left_m->max_speed / 15);
+    set_tacho_ramp_up_sp(left_m->sn, MOVE_RAMP_UP);
+    set_tacho_ramp_down_sp(left_m->sn, MOVE_RAMP_DOWN);
+
+    set_tacho_position_sp(right_m->sn, -deg);
+    set_tacho_speed_sp(right_m->sn, right_m->max_speed / 15);
+    set_tacho_ramp_up_sp(right_m->sn, MOVE_RAMP_UP);
+    set_tacho_ramp_down_sp(right_m->sn, MOVE_RAMP_DOWN);
+
+
+    set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
+    set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
+
+
+    FLAGS_T flag_left;
+    FLAGS_T flag_right;
+    do {
+        get_tacho_state_flags(left_m->sn, &flag_left);
+        get_tacho_state_flags(right_m->sn, &flag_right);
+        if(flag_left == TACHO_RAMPING) {
+            set_tacho_command_inx(left_m->sn, TACHO_STOP);
+        }
+        if(flag_right == TACHO_RAMPING) {
+            set_tacho_command_inx(right_m->sn, TACHO_STOP);
+        }
+    } while (flag_left || flag_right);
+
+    printf("roteted degrees=%d\n", deg);
+
     
 }
 
