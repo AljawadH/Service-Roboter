@@ -107,14 +107,15 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg) {
 }
 
 void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
+    int speedTeiler=20;
     float nullRad= 10.2;
 
     if(rad<=0){return;}
     if (rad<nullRad){
         float linkesRad = (rad-nullRad) * -1;
         float rechtesRad = rad + nullRad;
-        set_tacho_speed_sp(left->sn, (left->max_speed/50 * linkesRad) * -1);
-        set_tacho_speed_sp(right->sn, right->max_speed/50 * rechtesRad);
+        set_tacho_speed_sp(left->sn, (left->max_speed/speedTeiler * linkesRad) * -1);
+        set_tacho_speed_sp(right->sn, right->max_speed/speedTeiler * rechtesRad);
         tacho_run_forever(left->sn);
         tacho_run_forever(right->sn);
         sleep(2000); //gyro abbruch TODO
@@ -123,8 +124,8 @@ void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
     }else if(rad>nullRad){
         float linkesRad = rad-nullRad;
         float rechtesRad = rad + nullRad;
-        set_tacho_speed_sp(left->sn, left->max_speed/50 * linkesRad);
-        set_tacho_speed_sp(right->sn, right->max_speed/50 * rechtesRad);
+        set_tacho_speed_sp(left->sn, left->max_speed/speedTeiler * linkesRad);
+        set_tacho_speed_sp(right->sn, right->max_speed/speedTeiler * rechtesRad);
         tacho_run_forever(left->sn);
         tacho_run_forever(right->sn);
         sleep(2000); //gyro abbruch TODO
@@ -134,14 +135,15 @@ void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
 }
 
 void curveRight(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
+    int speedTeiler=20;
     float nullRad= 10.2;
 
     if(rad<=0){return;}
     if (rad<nullRad){
         float rechtesRad = (rad-nullRad);
         float linkesRad = rad + nullRad;
-        set_tacho_speed_sp(left->sn, left->max_speed/50 * linkesRad);
-        set_tacho_speed_sp(right->sn, right->max_speed/50 * rechtesRad);
+        set_tacho_speed_sp(left->sn, left->max_speed/speedTeiler * linkesRad);
+        set_tacho_speed_sp(right->sn, right->max_speed/speedTeiler * rechtesRad);
         tacho_run_forever(left->sn);
         tacho_run_forever(right->sn);
         sleep(2000); //gyro abbruch TODO
@@ -150,8 +152,8 @@ void curveRight(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
     }else if(rad>nullRad){
         float rechtesRad = rad-nullRad;
         float linkesRad = rad + nullRad;
-        set_tacho_speed_sp(left->sn, left->max_speed/50 * linkesRad);
-        set_tacho_speed_sp(right->sn, right->max_speed/50 * rechtesRad);
+        set_tacho_speed_sp(left->sn, left->max_speed/speedTeiler * linkesRad);
+        set_tacho_speed_sp(right->sn, right->max_speed/speedTeiler * rechtesRad);
         tacho_run_forever(left->sn);
         tacho_run_forever(right->sn);
         sleep(2000); //gyro abbruch TODO
