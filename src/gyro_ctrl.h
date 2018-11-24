@@ -11,15 +11,17 @@
 typedef struct {
     
     uint8_t sn;
-    bool isup;
+    int start_deg;
     
 } gyro_t;
 
 
-gyro_t* create_gyro(INX_T type);
+gyro_t* create_gyro();
 void remove_gyro(gyro_t *gyro);
 
 int read_degree(gyro_t *gyro); 
+
+void gyro_reset(gyro_t* gyro);
 
 
 

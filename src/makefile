@@ -1,7 +1,7 @@
 CC	= arm-linux-gnueabi-gcc
-CFLAGS	= -Wall -I../include
+CFLAGS	= -Wall -Werror -I../include
 LDFLAGS	= -L../lib -lev3dev-c -Wl,-rpath ../lib
-OBJ	= main.o pen.o movement.o
+OBJ	= main.o pen.o movement.o gyro_ctrl.o
 
 RPATH	= start_robo
 

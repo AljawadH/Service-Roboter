@@ -9,12 +9,22 @@
 #include "brick.h"
 #include <unistd.h>
 #include "pen.h"
+#include "gyro_ctrl.h"
 
 static const int MOVE_RAMP_UP = 200;
 static const int MOVE_RAMP_DOWN = 200;
 
 static const int POS_FACTOR = 33.5;
 static const int MAX_SPEED_FACTOR = 5;
+
+static const float ROT_POS_FACTOR = 5.17;
+
+
+
+static const int MAX_ROT_DEG = 360;
+
+
+
 motor_t* create_motor(INX_T type, uint8_t port) {
 
     if(ev3_tacho_init() == -1) {
@@ -74,39 +84,87 @@ void move(motor_t* left_m, motor_t* right_m, int dist) {
 }
 
 
-void rotate(motor_t* left_m, motor_t* right_m, int deg) {
+void rotate(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
 
-    set_tacho_position_sp(left_m->sn, deg * 5.17);
-    set_tacho_speed_sp(left_m->sn, left_m->max_speed / MAX_SPEED_FACTOR);
-    set_tacho_ramp_up_sp(left_m->sn, MOVE_RAMP_UP);
-    set_tacho_ramp_down_sp(left_m->sn, MOVE_RAMP_DOWN);
+    if(deg == 0) return;
 
-    set_tacho_position_sp(right_m->sn, -deg * 5.17);
-    set_tacho_speed_sp(right_m->sn, right_m->max_speed / MAX_SPEED_FACTOR);
-    set_tacho_ramp_up_sp(right_m->sn, MOVE_RAMP_UP);
-    set_tacho_ramp_down_sp(right_m->sn, MOVE_RAMP_DOWN);
+    gyro_reset(gyro);
 
+    if(deg > 0) {
+        set_tacho_polarity_inx(right_m->sn, TACHO_INVERSED);
+    }
+    else if(deg < 0) {
+        set_tacho_polarity_inx(left_m->sn, TACHO_INVERSED);
 
-    set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
-    set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
+    }
+    set_tacho_speed_sp(left_m->sn, (left_m->max_speed / MAX_SPEED_FACTOR) * deg / MAX_ROT_DEG);
+    set_tacho_speed_sp(right_m->sn, (right_m->max_speed / MAX_SPEED_FACTOR) * deg / MAX_ROT_DEG);
+    set_tacho_ramp_up_sp(left_m->sn, 0);
+    set_tacho_ramp_up_sp(right_m->sn, 0);
+    set_tacho_ramp_down_sp(left_m->sn, 0);
+    set_tacho_ramp_down_sp(right_m->sn, 0);
+    set_tacho_command_inx(left_m->sn, TACHO_RUN_FOREVER);
+    set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);
 
+    if(deg > 0) {
 
-    FLAGS_T flag_left;
-    FLAGS_T flag_right;
-    do {
-        get_tacho_state_flags(left_m->sn, &flag_left);
-        get_tacho_state_flags(right_m->sn, &flag_right);
-        if(flag_left == TACHO_RAMPING) {
-            set_tacho_command_inx(left_m->sn, TACHO_STOP);
+        
+        int curr_deg = read_degree(gyro);
+        
+        while (curr_deg <= deg) {
+
+            set_tacho_speed_sp(left_m->sn, (left_m->max_speed / MAX_SPEED_FACTOR) * ((deg - curr_deg) / MAX_ROT_DEG));
+            set_tacho_command_inx(left_m->sn, TACHO_RUN_FOREVER);
+            set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);
+
+            curr_deg = read_degree(gyro);
         }
-        if(flag_right == TACHO_RAMPING) {
-            set_tacho_command_inx(right_m->sn, TACHO_STOP);
+        
+
+
+    }
+    else if(deg < 0) {
+
+        int curr_deg = read_degree(gyro);
+        
+        while (curr_deg >= deg) {
+
+
+            set_tacho_speed_sp(left_m->sn, (left_m->max_speed / MAX_SPEED_FACTOR) * ((deg - curr_deg) / MAX_ROT_DEG));
+            set_tacho_command_inx(left_m->sn, TACHO_RUN_FOREVER);
+            set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);
+
+            curr_deg = read_degree(gyro);
         }
-    } while (flag_left || flag_right);
+        
+    }
+
+    set_tacho_command_inx(right_m->sn, TACHO_STOP);
+    set_tacho_command_inx(left_m->sn, TACHO_STOP);
+
+    set_tacho_polarity_inx(left_m->sn, TACHO_NORMAL);
+    set_tacho_polarity_inx(right_m->sn, TACHO_NORMAL);
+    
 
     printf("roteted degrees=%d\n", deg);
 
     
+}
+
+void rotate_right(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
+
+    if(deg <= 0) {
+        deg = -deg;
+    }
+    rotate(left_m, right_m, deg, gyro);
+
+}
+
+void rotate_left(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
+
+    if(deg >= 0) deg = -deg;
+
+    rotate(left_m, right_m, deg, gyro);
 }
 
 void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {

@@ -5,6 +5,7 @@
 #include "ev3.h"
 #include "ev3_tacho.h"
 #include "pen.h"
+#include "gyro_ctrl.h"
 
 
 typedef struct {
@@ -20,7 +21,9 @@ void remove_motor(motor_t* motor);
 
 void move(motor_t* left_m, motor_t* right_m, int dist);
 
-void rotate(motor_t* left_m, motor_t* right_m, int deg);
+void rotate_right(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro);
+
+void rotate_left(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro);
 
 void curve(motor_t* left_m, motor_t* right_m, uint8_t rad, int16_t deg);
 

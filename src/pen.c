@@ -8,7 +8,7 @@
 
 
 static const int PEN_DOWN_POSITION = -75;
-static const int PEN_UP_POSITION = -50;
+static const int PEN_UP_POSITION = -20;
 
 static const int PEN_MOVE_SPEED = 15;
 
