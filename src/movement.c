@@ -8,10 +8,13 @@
 #include <stdio.h>
 #include "brick.h"
 #include <unistd.h>
+#include "pen.h"
 
 static const int MOVE_RAMP_UP = 200;
 static const int MOVE_RAMP_DOWN = 200;
 
+static const int POS_FACTOR = 33.5;
+static const int MAX_SPEED_FACTOR = 5;
 motor_t* create_motor(INX_T type, uint8_t port) {
 
     if(ev3_tacho_init() == -1) {
@@ -39,13 +42,13 @@ void remove_motor(motor_t* motor) {
 
 void move(motor_t* left_m, motor_t* right_m, int dist) {
 
-    set_tacho_position_sp(left_m->sn, -dist);
-    set_tacho_speed_sp(left_m->sn, left_m->max_speed / 15);
+    set_tacho_position_sp(left_m->sn, -dist * POS_FACTOR);
+    set_tacho_speed_sp(left_m->sn, left_m->max_speed / MAX_SPEED_FACTOR);
     set_tacho_ramp_up_sp(left_m->sn, MOVE_RAMP_UP);
     set_tacho_ramp_down_sp(left_m->sn, MOVE_RAMP_DOWN);
 
-    set_tacho_position_sp(right_m->sn, -dist);
-    set_tacho_speed_sp(right_m->sn, right_m->max_speed / 15);
+    set_tacho_position_sp(right_m->sn, -dist * POS_FACTOR);
+    set_tacho_speed_sp(right_m->sn, right_m->max_speed / MAX_SPEED_FACTOR);
     set_tacho_ramp_up_sp(right_m->sn, MOVE_RAMP_UP);
     set_tacho_ramp_down_sp(right_m->sn, MOVE_RAMP_DOWN);
 
@@ -73,13 +76,13 @@ void move(motor_t* left_m, motor_t* right_m, int dist) {
 
 void rotate(motor_t* left_m, motor_t* right_m, int deg) {
 
-    set_tacho_position_sp(left_m->sn, deg);
-    set_tacho_speed_sp(left_m->sn, left_m->max_speed / 15);
+    set_tacho_position_sp(left_m->sn, deg * 5.17);
+    set_tacho_speed_sp(left_m->sn, left_m->max_speed / MAX_SPEED_FACTOR);
     set_tacho_ramp_up_sp(left_m->sn, MOVE_RAMP_UP);
     set_tacho_ramp_down_sp(left_m->sn, MOVE_RAMP_DOWN);
 
-    set_tacho_position_sp(right_m->sn, -deg);
-    set_tacho_speed_sp(right_m->sn, right_m->max_speed / 15);
+    set_tacho_position_sp(right_m->sn, -deg * 5.17);
+    set_tacho_speed_sp(right_m->sn, right_m->max_speed / MAX_SPEED_FACTOR);
     set_tacho_ramp_up_sp(right_m->sn, MOVE_RAMP_UP);
     set_tacho_ramp_down_sp(right_m->sn, MOVE_RAMP_DOWN);
 

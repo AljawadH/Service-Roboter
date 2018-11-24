@@ -4,6 +4,7 @@
 
 #include "ev3.h"
 #include "ev3_tacho.h"
+#include "pen.h"
 
 
 typedef struct {

@@ -9,6 +9,22 @@
 
 
 
+void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen) {
+
+    move_pen_down(pen);
+
+    move(left_m, right_m, 5 * factor);
+    rotate(left_m, right_m, 90);
+    move(left_m, right_m, 5 * factor);
+    rotate(left_m, right_m, 90);
+    move(left_m, right_m, 5 * factor);
+    rotate(left_m, right_m, 90);
+    move(left_m, right_m, 5 * factor);
+
+    move_pen_up(pen);
+    
+}
+
 
 int main(){
 
@@ -16,15 +32,12 @@ int main(){
     motor_t* right_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_D);
 
     pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
+    
     //move_pen_down(pen);
-
-    //rotate(left_m, right_m, 30);
-    move(left_m, right_m, 500);
-
-    rotate(left_m, right_m, -300);
+    
+    test_square(2, left_m, right_m, pen);
 
 
-    //move_pen_up(pen);
 
     remove_pen(pen);
     remove_motor(left_m);
