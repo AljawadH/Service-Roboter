@@ -42,18 +42,33 @@ int main(){
     
     //move_pen_down(pen);
     
+
+    
+
     //test_square(2, left_m, right_m, pen, gyro);
 
     //move(left_m, right_m, 22);
 
-    rotate_left(left_m, right_m, 360, gyro);
+    /*rotate_right(left_m, right_m, 360, gyro);
 
-    /*
+    usleep(1500000);
+
     rotate_left(left_m, right_m, 90, gyro);
     rotate_left(left_m, right_m, 90, gyro);
     rotate_left(left_m, right_m, 90, gyro);
     rotate_left(left_m, right_m, 90, gyro);
-    */
+
+    usleep(1500000);
+
+    rotate_left(left_m, right_m, 45, gyro);
+    rotate_left(left_m, right_m, 45, gyro);
+    rotate_left(left_m, right_m, 45, gyro);
+    rotate_left(left_m, right_m, 45, gyro);
+    rotate_left(left_m, right_m, 45, gyro);
+    rotate_left(left_m, right_m, 45, gyro);
+    rotate_left(left_m, right_m, 45, gyro);*/
+    
+
 
     remove_pen(pen);
     remove_motor(left_m);

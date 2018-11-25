@@ -1,8 +1,8 @@
 #ifndef GYRO_CTRL
 #define GYRO_CTRL
 
-
 #include "ev3.h"
+
 
 #include "brick.h"
 #include "ev3_sensor.h"

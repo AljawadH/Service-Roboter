@@ -21,7 +21,10 @@ gyro_t* create_gyro(){
         printf("Gyro-Sensor was found\n");
     
 
-        set_sensor_mode_inx(newGyro->sn, GYRO_GYRO_ANG);
+        // set_sensor_mode_inx(newGyro->sn, GYRO_GYRO_ANG);
+
+        set_sensor_mode_inx(newGyro->sn, LEGO_EV3_GYRO_GYRO_G_AND_A);
+         
 
         newGyro->start_deg = 0;
         newGyro->start_deg = read_degree(newGyro);
