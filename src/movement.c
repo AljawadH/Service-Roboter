@@ -52,6 +52,10 @@ void remove_motor(motor_t* motor) {
 
 void move(motor_t* left_m, motor_t* right_m, int dist) {
 
+    set_tacho_stop_action_inx(left_m->sn,TACHO_COAST);
+    set_tacho_stop_action_inx(right_m->sn,TACHO_COAST);
+
+
     set_tacho_position_sp(left_m->sn, -dist * POS_FACTOR);
     set_tacho_speed_sp(left_m->sn, left_m->max_speed / MAX_SPEED_FACTOR);
     set_tacho_ramp_up_sp(left_m->sn, MOVE_RAMP_UP);
@@ -99,13 +103,15 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
     }
     set_tacho_speed_sp(left_m->sn, (left_m->max_speed / MAX_SPEED_FACTOR));// * deg / MAX_ROT_DEG);
     set_tacho_speed_sp(right_m->sn, (right_m->max_speed / MAX_SPEED_FACTOR));// * deg / MAX_ROT_DEG);
+
     set_tacho_ramp_up_sp(left_m->sn, 0);
     set_tacho_ramp_up_sp(right_m->sn, 0);
+    
     set_tacho_ramp_down_sp(left_m->sn, 0);
     set_tacho_ramp_down_sp(right_m->sn, 0);
 
-    set_tacho_stop_action_inx(left_m->sn,TACHO_BRAKE);
-    set_tacho_stop_action_inx(right_m->sn,TACHO_BRAKE);
+    set_tacho_stop_action_inx(left_m->sn,TACHO_COAST);
+    set_tacho_stop_action_inx(right_m->sn,TACHO_COAST);
 
     set_tacho_command_inx(left_m->sn, TACHO_RUN_FOREVER);
     set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);
@@ -120,7 +126,7 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
             /*set_tacho_speed_sp(left_m->sn, (left_m->max_speed / MAX_SPEED_FACTOR) * ((deg - curr_deg) / MAX_ROT_DEG));
             set_tacho_command_inx(left_m->sn, TACHO_RUN_FOREVER);
             set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);*/
-
+            printf("deg:%d\n",curr_deg);
             curr_deg = read_degree(gyro);
         }
         
@@ -139,6 +145,7 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
             set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);*/
 
             curr_deg = read_degree(gyro);
+            printf("deg:%d\n",curr_deg);
         }
         
     }
@@ -146,8 +153,8 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
     set_tacho_command_inx(right_m->sn, TACHO_STOP);
     set_tacho_command_inx(left_m->sn, TACHO_STOP);
 
-    set_tacho_polarity_inx(left_m->sn, TACHO_NORMAL);
-    set_tacho_polarity_inx(right_m->sn, TACHO_NORMAL);
+    // set_tacho_polarity_inx(left_m->sn, TACHO_NORMAL);
+    // set_tacho_polarity_inx(right_m->sn, TACHO_NORMAL);
     
 
     printf("roteted degrees=%d\n", deg);

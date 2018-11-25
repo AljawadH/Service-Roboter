@@ -44,7 +44,9 @@ int main(){
     
     //test_square(2, left_m, right_m, pen, gyro);
 
-    rotate_right(left_m, right_m, 360, gyro);
+    //move(left_m, right_m, 22);
+
+    rotate_left(left_m, right_m, 360, gyro);
 
     /*
     rotate_left(left_m, right_m, 90, gyro);

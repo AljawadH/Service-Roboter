@@ -50,9 +50,9 @@ void remove_gyro(gyro_t *gyro){
 }
 
 int read_degree(gyro_t *gyro){
-    if(gyro==NULL)return 0;
+    if(gyro==NULL)return -1;
 
-    int value = 0;
+    int value = 1;
     get_sensor_value(0, gyro->sn, &value);
     return value - gyro->start_deg;
 }
