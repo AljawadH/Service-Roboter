@@ -130,6 +130,7 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
             set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);*/
             //printf("deg:%d\n",curr_deg);
             curr_deg = read_degree(gyro);
+            usleep(1000);
         }
         
 
@@ -147,6 +148,7 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
             set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);*/
 
             curr_deg = read_degree(gyro);
+            usleep(1000);
             //printf("deg:%d\n",curr_deg);
         }
         
