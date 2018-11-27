@@ -161,9 +161,9 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg) {
         
         while (curr_deg <= deg) {
 
-            /*set_tacho_speed_sp(left_m->sn, (left_m->max_speed / MAX_SPEED_FACTOR) * ((deg - curr_deg) / MAX_ROT_DEG));
-            set_tacho_command_inx(left_m->sn, TACHO_RUN_FOREVER);
-            set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);*/
+            // set_tacho_speed_sp(left_m->sn, (left_m->max_speed / MAX_SPEED_FACTOR) * ((deg - curr_deg) / MAX_ROT_DEG));
+            // set_tacho_command_inx(left_m->sn, TACHO_RUN_FOREVER);
+            // set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);
             //printf("deg:%d\n",curr_deg);
             curr_deg = read_degree(gyro);
             usleep(1000);
@@ -179,9 +179,9 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg) {
         while (curr_deg >= deg) {
 
 
-            /*set_tacho_speed_sp(left_m->sn, (left_m->max_speed / MAX_SPEED_FACTOR) * ((deg - curr_deg) / MAX_ROT_DEG));
-            set_tacho_command_inx(left_m->sn, TACHO_RUN_FOREVER);
-            set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);*/
+            // set_tacho_speed_sp(left_m->sn, (left_m->max_speed / MAX_SPEED_FACTOR) * ((deg - curr_deg) / MAX_ROT_DEG));
+            // set_tacho_command_inx(left_m->sn, TACHO_RUN_FOREVER);
+            // set_tacho_command_inx(right_m->sn, TACHO_RUN_FOREVER);
 
             curr_deg = read_degree(gyro);
             usleep(1000);
@@ -202,20 +202,20 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg) {
     
 }
 */
-void rotate_right(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
+void rotate_right(motor_t* left_m, motor_t* right_m, int deg) {
 
     if(deg <= 0) {
         deg = -deg;
     }
-    rotate(left_m, right_m, deg, gyro);
+    rotate(left_m, right_m, deg);
 
 }
 
-void rotate_left(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
+void rotate_left(motor_t* left_m, motor_t* right_m, int deg) {
 
     if(deg >= 0) deg = -deg;
 
-    rotate(left_m, right_m, deg, gyro);
+    rotate(left_m, right_m, deg);
 }
 
 
