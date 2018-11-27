@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include "pen.h"
 #include "gyro_ctrl.h"
+#include "math.h"
 
 static const int MOVE_RAMP_UP = 200;
 static const int MOVE_RAMP_DOWN = 200;
@@ -19,10 +20,10 @@ static const int MAX_SPEED_FACTOR = 5;
 
 static const float ROT_POS_FACTOR = 5.17;
 
-
-
 static const int MAX_ROT_DEG = 360;
 
+
+static const float WEEL_DIST = 18.5;
 
 
 motor_t* create_motor(INX_T type, uint8_t port) {
@@ -223,7 +224,34 @@ void rotate_left(motor_t* left_m, motor_t* right_m, int deg) {
 
 void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
 
-    
+    float peri_left = 2 * (rad + WEEL_DIST / 2) * M_PI;
+    float peri_right = 2 * (rad - WEEL_DIST / 2) * M_PI;
+
+    set_tacho_position_sp(left_m->sn, peri_left * (deg / 360));
+    set_tacho_position_sp(right_m->sn, peri_right * (deg / 360));
+
+    set_tacho_ramp_up_sp(left_m->sn, 0);
+    set_tacho_ramp_up_sp(right_m->sn, 0);
+    set_tacho_ramp_down_sp(left_m->sn, 0);
+    set_tacho_ramp_down_sp(right_m->sn, 0);
+
+    set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
+    set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
+
+    FLAGS_T flag_left;
+    FLAGS_T flag_right;
+    do {
+        get_tacho_state_flags(left_m->sn, &flag_left);
+        get_tacho_state_flags(right_m->sn, &flag_right);
+        if(flag_left == TACHO_RAMPING) {
+            set_tacho_command_inx(left_m->sn, TACHO_STOP);
+        }
+        if(flag_right == TACHO_RAMPING) {
+            set_tacho_command_inx(right_m->sn, TACHO_STOP);
+        }
+    } while (flag_left || flag_right);
+
+    prinf("curved rad=%d\tdeg=%d", rad, deg);
 }
 
 
