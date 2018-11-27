@@ -35,17 +35,17 @@ int main(){
 
     gyro_t* gyro = create_gyro();
 
-    motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_A);
-    motor_t* right_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_D);
+    motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_D);
+    motor_t* right_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_A);
 
     pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
     
     
 
-    //test_square(2, left_m, right_m, pen, gyro);
-
-    curve(left_m, right_m, 20, 90);
-    
+    test_square(2, left_m, right_m, pen, gyro);
+    // move_pen_down(pen);
+    // curve(left_m, right_m, 20, 360);
+    // move_pen_up(pen);
 
 
     remove_pen(pen);

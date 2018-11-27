@@ -227,8 +227,8 @@ void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
     float peri_left = (2 * ((float)(rad + WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
     float peri_right = (2 * ((float)(rad - WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
 
-    set_tacho_position_sp(left_m->sn, -1 * peri_left * (((float)deg) / 360));
-    set_tacho_position_sp(right_m->sn, -1 * peri_right * (((float)deg) / 360));
+    set_tacho_position_sp(left_m->sn, -1.0 * peri_left * (((float)deg) / 360.0));
+    set_tacho_position_sp(right_m->sn, -1.0 * peri_right * (((float)deg) / 360.0));
 
 
 
@@ -240,8 +240,8 @@ void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
     set_tacho_stop_action_inx(left_m->sn, TACHO_BRAKE);
     set_tacho_stop_action_inx(right_m->sn, TACHO_BRAKE);
 
-    set_tacho_speed_sp(left_m->sn, (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_left / MAX_SPEED_FACTOR));
-    set_tacho_speed_sp(right_m->sn, (float)(right_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_right / MAX_SPEED_FACTOR));
+    set_tacho_speed_sp(left_m->sn, (float)left_m->max_speed/2);// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_left / 2));
+    set_tacho_speed_sp(right_m->sn,(float)left_m->max_speed/((float)(peri_left/peri_right)*2.0));// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_right / 2));
 
     int speed_left;
     int speed_right;
@@ -269,7 +269,7 @@ void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
         }
     } while (flag_left || flag_right);
 
-    printf("curved rad=%d\tdeg=%d", rad, deg);
+    printf("curved rad=%d\tdeg=%d\n", rad, deg);
 }
 
 
@@ -329,6 +329,6 @@ void curveRight(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
         tacho_run_forever(right->sn);
         sleep(2000); //gyro abbruch TODO
         tacho_stop(left->sn);
-        tacho_stop(right->sn);
+        tacho_stop(right->sn);  
     }
 }
