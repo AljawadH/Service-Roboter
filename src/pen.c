@@ -7,8 +7,8 @@
 #include <stdio.h>
 
 
-static const int PEN_DOWN_POSITION = -75;
-static const int PEN_UP_POSITION = -20;
+static const int PEN_DOWN_POSITION = -290;
+static const int PEN_UP_POSITION = -260;
 
 static const int PEN_MOVE_SPEED = 15;
 
