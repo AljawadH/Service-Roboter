@@ -25,7 +25,7 @@ void rotate_right(motor_t* left_m, motor_t* right_m, int deg);
 
 void rotate_left(motor_t* left_m, motor_t* right_m, int deg);
 
-void curve(motor_t* left_m, motor_t* right_m, uint8_t rad, int16_t deg);
+void curve(motor_t* left_m, motor_t* right_m, int rad, int deg);
 
 
 #endif

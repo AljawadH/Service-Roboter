@@ -44,7 +44,7 @@ int main(){
 
     //test_square(2, left_m, right_m, pen, gyro);
 
-    curve(left_m, right_m, 40, 45);
+    curve(left_m, right_m, 20, 90);
     
 
 
