@@ -15,7 +15,7 @@
 static const int MOVE_RAMP_UP = 200;
 static const int MOVE_RAMP_DOWN = 200;
 
-static const int POS_FACTOR = 33.5;
+static const float POS_FACTOR = 33.5;
 static const int MAX_SPEED_FACTOR = 5;
 
 static const float ROT_POS_FACTOR = 5.17;
@@ -224,8 +224,8 @@ void rotate_left(motor_t* left_m, motor_t* right_m, int deg) {
 
 void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
 
-    float peri_left = 2 * (rad + WEEL_DIST / 2) * M_PI;
-    float peri_right = 2 * (rad - WEEL_DIST / 2) * M_PI;
+    float peri_left = (2 * (rad + WEEL_DIST / 2) * M_PI) * POS_FACTOR;
+    float peri_right = (2 * (rad - WEEL_DIST / 2) * M_PI) * POS_FACTOR;
 
     set_tacho_position_sp(left_m->sn, peri_left * (deg / 360));
     set_tacho_position_sp(right_m->sn, peri_right * (deg / 360));
@@ -234,6 +234,8 @@ void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
     set_tacho_ramp_up_sp(right_m->sn, 0);
     set_tacho_ramp_down_sp(left_m->sn, 0);
     set_tacho_ramp_down_sp(right_m->sn, 0);
+    set_tacho_speed_sp(left_m->sn, left_m->max_speed / MAX_SPEED_FACTOR);
+    set_tacho_speed_sp(right_m->sn, right_m->max_speed / MAX_SPEED_FACTOR);
 
     set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
     set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
