@@ -218,6 +218,19 @@ void rotate_left(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
     rotate(left_m, right_m, deg, gyro);
 }
 
+
+
+
+void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
+
+    
+}
+
+
+
+
+
+
 void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
     int speedTeiler=20;
     float nullRad= 10.2;
