@@ -52,8 +52,8 @@ void remove_motor(motor_t* motor) {
 
 void move(motor_t* left_m, motor_t* right_m, int dist) {
 
-    set_tacho_stop_action_inx(left_m->sn,TACHO_BRAKE);
-    set_tacho_stop_action_inx(right_m->sn,TACHO_BRAKE);
+    // set_tacho_stop_action_inx(left_m->sn,TACHO_BRAKE);
+    // set_tacho_stop_action_inx(right_m->sn,TACHO_BRAKE);
 
 
     set_tacho_position_sp(left_m->sn, -dist * POS_FACTOR);
@@ -90,12 +90,12 @@ void move(motor_t* left_m, motor_t* right_m, int dist) {
 
 void rotate(motor_t* left_m, motor_t* right_m, int deg) {
 
-    set_tacho_position_sp(left_m->sn, deg * 5.17);
+    set_tacho_position_sp(left_m->sn, deg * ROT_POS_FACTOR);
     set_tacho_speed_sp(left_m->sn, left_m->max_speed / MAX_SPEED_FACTOR);
     set_tacho_ramp_up_sp(left_m->sn, MOVE_RAMP_UP);
     set_tacho_ramp_down_sp(left_m->sn, MOVE_RAMP_DOWN);
 
-    set_tacho_position_sp(right_m->sn, -deg * 5.17);
+    set_tacho_position_sp(right_m->sn, -deg * ROT_POS_FACTOR);
     set_tacho_speed_sp(right_m->sn, right_m->max_speed / MAX_SPEED_FACTOR);
     set_tacho_ramp_up_sp(right_m->sn, MOVE_RAMP_UP);
     set_tacho_ramp_down_sp(right_m->sn, MOVE_RAMP_DOWN);
