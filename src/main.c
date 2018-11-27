@@ -17,13 +17,13 @@ void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen, gyro
 
     move(left_m, right_m, 5 * factor);
     usleep(100000);
-    rotate_right(left_m, right_m, 90, gyro);
+    rotate_right(left_m, right_m, 90);
     move(left_m, right_m, 5 * factor);
     usleep(100000);
-    rotate_right(left_m, right_m, 90, gyro);
+    rotate_right(left_m, right_m, 90);
     move(left_m, right_m, 5 * factor);
     usleep(100000);
-    rotate_right(left_m, right_m, 90, gyro);
+    rotate_right(left_m, right_m, 90);
     move(left_m, right_m, 5 * factor);
 
     //move_pen_up(pen);
