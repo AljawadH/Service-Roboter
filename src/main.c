@@ -13,7 +13,7 @@
 
 void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen, gyro_t* gyro) {
 
-    //move_pen_down(pen);
+    move_pen_down(pen);
 
     move(left_m, right_m, 5 * factor);
     usleep(100000);
@@ -26,7 +26,7 @@ void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen, gyro
     rotate_right(left_m, right_m, 90);
     move(left_m, right_m, 5 * factor);
 
-    //move_pen_up(pen);
+    move_pen_up(pen);
     
 }
 
@@ -40,33 +40,11 @@ int main(){
 
     pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
     
-    //move_pen_down(pen);
-    
-
     
 
     test_square(2, left_m, right_m, pen, gyro);
 
-    //move(left_m, right_m, 22);
-
-    /*rotate_right(left_m, right_m, 360, gyro);
-
-    usleep(1500000);
-
-    rotate_left(left_m, right_m, 90, gyro);
-    rotate_left(left_m, right_m, 90, gyro);
-    rotate_left(left_m, right_m, 90, gyro);
-    rotate_left(left_m, right_m, 90, gyro);
-
-    usleep(1500000);
-
-    rotate_left(left_m, right_m, 45, gyro);
-    rotate_left(left_m, right_m, 45, gyro);
-    rotate_left(left_m, right_m, 45, gyro);
-    rotate_left(left_m, right_m, 45, gyro);
-    rotate_left(left_m, right_m, 45, gyro);
-    rotate_left(left_m, right_m, 45, gyro);
-    rotate_left(left_m, right_m, 45, gyro);*/
+    
     
 
 
