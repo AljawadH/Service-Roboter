@@ -31,7 +31,7 @@ void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen, gyro
 }
 
 void drawFace(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-    
+
 }
 
 
@@ -48,8 +48,8 @@ int main(){
 
     //test_square(2, left_m, right_m, pen, gyro);
     move_pen_down(pen);
-    curve(left_m, right_m, 5, 360);
-     curve(left_m, right_m, 12, 360);
+    curveLeft(left_m, right_m, 5, 360);
+    curveRight(left_m, right_m, 5, 360);
     // move_pen_up(pen);
 
 
