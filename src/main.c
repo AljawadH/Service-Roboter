@@ -35,14 +35,16 @@ void kopfForm(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
     const float curveDegree = 175.25;
     const float headHight = 12;
 
+    const int sleepDuration = 0;
+
     curveLeft(left_m,right_m,8*factor,curveDegree);
-    usleep(2000000); 
+    usleep(sleepDuration); 
     move_pen_down(pen); 
     move(left_m,right_m,headHight*factor);
-    usleep(2000000); 
+    usleep(sleepDuration); 
     move_pen_down(pen); 
     curveLeft(left_m,right_m,8 * factor,curveDegree);
-    usleep(2000000); 
+    usleep(sleepDuration); 
     move_pen_down(pen); 
     move(left_m,right_m,headHight*factor);
 
@@ -56,35 +58,59 @@ void drawEyes(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
     const float eyeRadius = 3.925;
     const float turnLeft = 90;
 
+    const int sleepDuration = 0;
+
     move_pen_up(pen);
     move(left_m,right_m,-3.5*factor);
-    usleep(2000000); 
+    usleep(sleepDuration); 
     move_pen_down(pen);
     curveLeft(left_m,right_m,eyeRadius*factor,eyeDegree);
-    usleep(2000000); 
+    usleep(sleepDuration); 
     move_pen_up(pen);
     rotate_left(left_m,right_m,turnLeft);
-    usleep(2000000);
+    usleep(sleepDuration);
     move(left_m,right_m,eyeRadius*factor);
     move_pen_down(pen);
     usleep(2000000); //dont remove
     move_pen_up(pen);
-    usleep(2000000);
+    usleep(sleepDuration);
     move(left_m,right_m,eyeRadius*2*factor + 1);//TODO:
-    usleep(2000000);
+    usleep(sleepDuration);
     move_pen_down(pen);
     usleep(2000000); //dont remove
     move_pen_up(pen);
     move(left_m,right_m,eyeRadius*factor);
-    usleep(2000000);
+    usleep(sleepDuration);
     rotate_left(left_m,right_m,turnLeft);
-    usleep(2000000);
+    usleep(sleepDuration);
     move_pen_down(pen);
     curveLeft(left_m,right_m,eyeRadius*factor,eyeDegree);
 
 
 
 
+
+
+}
+
+void drawNose(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
+
+    const float gerade = 6.75;
+
+    const int sleepDuration = 1000000;
+
+    move_pen_up(pen);
+    move(left_m,right_m,3*factor);
+    usleep(sleepDuration);
+    rotate_left(left_m,right_m,90);
+    usleep(sleepDuration);
+    move(left_m,right_m,gerade*factor);
+    usleep(sleepDuration);
+    rotate_right(left_m,right_m,90);
+    usleep(sleepDuration);
+    move_pen_down(pen);
+    usleep(sleepDuration);
+    curveLeft(left_m,right_m,1*factor,180);
 
 
 }
@@ -103,76 +129,77 @@ void drawFace(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
 
     kopfForm(factor,left_m,right_m,pen);
     drawEyes(factor,left_m,right_m,pen);
+    drawNose(factor,left_m,right_m,pen);
 
     
     
 
 
     // curveLeft(left_m,right_m,1.25*factor,170);  //Auge huckel
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // rotate_right(left_m,right_m,90);
-    // usleep(2000000); 
+    // usleep(sleepDuration); 
     // move_pen_down(pen);   
     // curveLeft(left_m,right_m,8*factor,180);   //oben Kopf
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // rotate_right(left_m,right_m,90);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // curveLeft(left_m,right_m,1.25*factor,170);  //Auge huckel
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // rotate_right(left_m,right_m,105);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // curveLeft(left_m,right_m,3.75*factor,380); //Auge
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // rotate_right(left_m,right_m,15);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // move(left_m,right_m,2.25*factor);  //gerade unter Auge
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // rotate_right(left_m,right_m,90);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // curveLeft(left_m,right_m,1.75*factor,170); //Ohr links
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // rotate_right(left_m,right_m,90);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // // move(left_m,right_m,1.25*factor);   //Strich Ohr
-    // // usleep(2000000);
+    // // usleep(sleepDuration);
     // // move_pen_down(pen);
     // rotate_left(left_m,right_m,180);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // // move(left_m,right_m,1.75*factor);  //Strich Ohr-Mund
-    // // usleep(2000000);
+    // // usleep(sleepDuration);
     // // move_pen_down(pen);
     // curveLeft(left_m,right_m,8*factor,180);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // move(left_m,right_m,3.5*factor);   //Strich mund
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // rotate_left(right_m,left_m,180);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // move(left_m,right_m,2.5*factor);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // rotate_left(left_m,right_m,90);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // curveLeft(left_m,right_m,1.75*factor,170);   //Ohr rechts
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // rotate_left(left_m,right_m,15);
-    // usleep(2000000);
+    // usleep(sleepDuration);
     // move_pen_down(pen);
     // curveLeft(left_m,right_m,3.75*factor,380); //Auge   
 
