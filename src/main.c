@@ -146,7 +146,7 @@ void drawMouth(int factor,motor_t* left_m, motor_t* right_m, pen_t* pen){
     usleep(sleepDuration);
     curveLeft(left_m,right_m,mouthSidesRad,140);
     usleep(sleepDuration);
-    curveLeft(left_m,right_m,mouthTopRad,20);
+    curveLeft(left_m,right_m,mouthTopRad,19);
 
 
 
@@ -157,7 +157,7 @@ void drawEars(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
     static int sleepDuration= 2000000;
 
     move_pen_up(pen);
-    rotate_right(left_m,right_m,90);
+    rotate_right(left_m,right_m,100);
     usleep(sleepDuration);
     move(left_m,right_m,4);
     usleep(sleepDuration);
@@ -208,7 +208,8 @@ void drawFace(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
     drawEyes(factor,left_m,right_m,pen);
     drawNose(factor,left_m,right_m,pen);
     drawMouth(factor,left_m,right_m,pen);
-    drawEars(factor,left_m,right_m,pen);
+    // drawEars(factor,left_m,right_m,pen);
+
 
 
 
