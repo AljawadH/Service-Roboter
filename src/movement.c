@@ -101,9 +101,12 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg) {
     set_tacho_ramp_up_sp(right_m->sn, MOVE_RAMP_UP);
     set_tacho_ramp_down_sp(right_m->sn, MOVE_RAMP_DOWN);
 
+    
 
     set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
     set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
+
+    
 
 
     FLAGS_T flag_left;
@@ -224,13 +227,17 @@ void rotate_left(motor_t* left_m, motor_t* right_m, int deg) {
 
 void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
 
+    //float degreeOffset = 11/12;
+
+
+
     float peri_left = (2 * ((float)(rad + WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
     float peri_right = (2 * ((float)(rad - WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
 
-    set_tacho_position_sp(left_m->sn, -1.0 * peri_left * (((float)deg) / 360.0));
-    set_tacho_position_sp(right_m->sn, -1.0 * peri_right * (((float)deg) / 360.0));
+    // set_tacho_position_sp(left_m->sn, -1.0 * peri_left * (((float)deg) / 360.0));
+    // set_tacho_position_sp(right_m->sn, -1.0 * peri_right * (((float)deg) / 360.0));
 
-
+    float ms = (1.0 * peri_left * (((float)deg) / 360.0))/(left_m->max_speed/2)*1000;
 
     set_tacho_ramp_up_sp(left_m->sn, 0);
     set_tacho_ramp_up_sp(right_m->sn, 0);
@@ -240,8 +247,14 @@ void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
     set_tacho_stop_action_inx(left_m->sn, TACHO_BRAKE);
     set_tacho_stop_action_inx(right_m->sn, TACHO_BRAKE);
 
-    set_tacho_speed_sp(left_m->sn, (float)left_m->max_speed/2);// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_left / 2));
-    set_tacho_speed_sp(right_m->sn,(float)left_m->max_speed/((float)(peri_left/peri_right)*2.0));// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_right / 2));
+
+    set_tacho_time_sp( left_m->sn, ms);
+    set_tacho_time_sp( right_m->sn, ms);
+
+    
+
+    set_tacho_speed_sp(left_m->sn,-1.0* (float)left_m->max_speed/2);// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_left / 2));
+    set_tacho_speed_sp(right_m->sn,-1.0* (float)left_m->max_speed/((float)(peri_left/peri_right)*2.0));// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_right / 2));
 
     int speed_left;
     int speed_right;
@@ -252,9 +265,13 @@ void curve(motor_t* left_m, motor_t* right_m, int rad, int deg) {
 
     get_tacho_position_sp(left_m->sn, &distance_left);
     get_tacho_position_sp(right_m->sn, &distance_right);
-    printf("max motor speed=%d\nspeed_left=%d\nspeed_right=%d\ndistance_left=%d\ndistance_right=%d\n", left_m->max_speed, speed_left, speed_right, distance_left, distance_right);
-    set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
-    set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
+    printf("time: %f\n",ms);
+    //printf("max motor speed=%d\nspeed_left=%d\nspeed_right=%d\ndistance_left=%d\ndistance_right=%d\n", left_m->max_speed, speed_left, speed_right, distance_left, distance_right);
+    // set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
+    // set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
+
+    set_tacho_command_inx( left_m->sn, TACHO_RUN_TIMED );
+    set_tacho_command_inx( right_m->sn, TACHO_RUN_TIMED );
 
     FLAGS_T flag_left;
     FLAGS_T flag_right;

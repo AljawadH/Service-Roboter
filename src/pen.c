@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 
-static const int PEN_DOWN_POSITION = -290;
+static const int PEN_DOWN_POSITION = -293;
 static const int PEN_UP_POSITION = -260;
 
 static const int PEN_MOVE_SPEED = 15;
@@ -29,7 +29,7 @@ pen_t* create_pen(INX_T type) {
 
     printf("pen created\n");
 
-    move_pen_up(pen);
+    //move_pen_up(pen);
     pen->isup = true;
 
 
