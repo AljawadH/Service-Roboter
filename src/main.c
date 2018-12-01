@@ -32,6 +32,85 @@ void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen, gyro
 
 void drawFace(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
 
+    //pixel/700 * 35
+    
+
+    //TODO: aus der mitter fahren
+
+    curveLeft(left_m,right_m,1.25*factor,170);  //Auge huckel
+    usleep(2000000);
+    move_pen_down(pen);
+    rotate_right(left_m,right_m,90);
+    usleep(2000000); 
+    move_pen_down(pen);   
+    curveLeft(left_m,right_m,8*factor,180);   //oben Kopf
+    usleep(2000000);
+    move_pen_down(pen);
+    rotate_right(left_m,right_m,90);
+    usleep(2000000);
+    move_pen_down(pen);
+    curveLeft(left_m,right_m,1.25*factor,170);  //Auge huckel
+    usleep(2000000);
+    move_pen_down(pen);
+    rotate_right(left_m,right_m,105);
+    usleep(2000000);
+    move_pen_down(pen);
+    curveLeft(left_m,right_m,3.75*factor,380); //Auge
+    usleep(2000000);
+    move_pen_down(pen);
+    rotate_right(left_m,right_m,15);
+    usleep(2000000);
+    move_pen_down(pen);
+    move(left_m,right_m,2.25*factor);  //gerade unter Auge
+    usleep(2000000);
+    move_pen_down(pen);
+    rotate_right(left_m,right_m,90);
+    usleep(2000000);
+    move_pen_down(pen);
+    curveLeft(left_m,right_m,1.75*factor,170); //Ohr links
+    usleep(2000000);
+    move_pen_down(pen);
+    rotate_right(left_m,right_m,90);
+    usleep(2000000);
+    move_pen_down(pen);
+    // move(left_m,right_m,1.25*factor);   //Strich Ohr
+    // usleep(2000000);
+    // move_pen_down(pen);
+    rotate_left(left_m,right_m,180);
+    usleep(2000000);
+    move_pen_down(pen);
+    // move(left_m,right_m,1.75*factor);  //Strich Ohr-Mund
+    // usleep(2000000);
+    // move_pen_down(pen);
+    curveLeft(left_m,right_m,8*factor,180);
+    usleep(2000000);
+    move_pen_down(pen);
+    move(left_m,right_m,3.5*factor);   //Strich mund
+    usleep(2000000);
+    move_pen_down(pen);
+    rotate_left(right_m,left_m,180);
+    usleep(2000000);
+    move_pen_down(pen);
+    move(left_m,right_m,2.5*factor);
+    usleep(2000000);
+    move_pen_down(pen);
+    rotate_left(left_m,right_m,90);
+    usleep(2000000);
+    move_pen_down(pen);
+    curveLeft(left_m,right_m,1.75*factor,170);   //Ohr rechts
+    usleep(2000000);
+    move_pen_down(pen);
+    rotate_left(left_m,right_m,15);
+    usleep(2000000);
+    move_pen_down(pen);
+    curveLeft(left_m,right_m,3.75*factor,380); //Auge   
+
+
+
+
+    
+
+
 }
 
 
@@ -48,8 +127,9 @@ int main(){
 
     //test_square(2, left_m, right_m, pen, gyro);
     move_pen_down(pen);
-    curveLeft(left_m, right_m, 5, 360);
-    curveRight(left_m, right_m, 5, 360);
+    drawFace(1,left_m,right_m,pen);
+    
+
     // move_pen_up(pen);
 
 

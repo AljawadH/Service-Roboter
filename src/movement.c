@@ -206,7 +206,7 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg) {
     
 }
 */
-void rotate_right(motor_t* left_m, motor_t* right_m, int deg) {
+void rotate_left(motor_t* left_m, motor_t* right_m, int deg) {
 
     if(deg <= 0) {
         deg = -deg;
@@ -215,7 +215,7 @@ void rotate_right(motor_t* left_m, motor_t* right_m, int deg) {
 
 }
 
-void rotate_left(motor_t* left_m, motor_t* right_m, int deg) {
+void rotate_right(motor_t* left_m, motor_t* right_m, int deg) {
 
     if(deg >= 0) deg = -deg;
 
