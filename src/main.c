@@ -2,7 +2,6 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_port.h"
-
 #include "brick.h"
 #include "pen.h"
 #include "movement.h"
@@ -14,7 +13,6 @@
 void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen, gyro_t* gyro) {
 
     move_pen_down(pen);
-
     move(left_m, right_m, 5 * factor);
     usleep(100000);
     rotate_right(left_m, right_m, 90);
@@ -25,17 +23,13 @@ void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen, gyro
     usleep(100000);
     rotate_right(left_m, right_m, 90);
     move(left_m, right_m, 5 * factor);
-
     move_pen_up(pen);
-    
 }
 
 void kopfForm(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-
     const float curveDegree = 175.25;
     const float curveNotDrawn = 25;
     const float headHight = 12;
-
     const int sleepDuration = 0;
 
     curveLeft(left_m,right_m,8*factor,curveDegree);
@@ -44,29 +38,23 @@ void kopfForm(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
     move(left_m,right_m,headHight*factor);
     usleep(sleepDuration); 
     move_pen_down(pen); 
-
     move_pen_up(pen);
     curveLeft(left_m,right_m,8 * factor,curveNotDrawn);
     move_pen_down(pen);
     curveLeft(left_m,right_m,8 * factor,curveDegree-2*curveNotDrawn);
      move_pen_up(pen);
     curveLeft(left_m,right_m,8 * factor,curveNotDrawn);
-
-
     usleep(sleepDuration); 
     move_pen_down(pen); 
     move(left_m,right_m,headHight*factor);
-
 }
 
 
 
 void drawEyes(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-
     const float eyeDegree = 357;
     const float eyeRadius = 3.925;
     const float turnLeft = 90;
-
     const int sleepDuration = 0;
 
     move_pen_up(pen);
@@ -94,18 +82,10 @@ void drawEyes(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
     usleep(sleepDuration);
     move_pen_down(pen);
     curveLeft(left_m,right_m,eyeRadius*factor,eyeDegree);
-
-
-
-
-
-
 }
 
 void drawNose(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-
     const float gerade = 6.5;
-
     const int sleepDuration = 0;
 
     move_pen_up(pen);
@@ -120,12 +100,9 @@ void drawNose(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
     move_pen_down(pen);
     usleep(sleepDuration);
     curveLeft(left_m,right_m,1*factor,300);
-
-
 }
 
 void drawMouth(int factor,motor_t* left_m, motor_t* right_m, pen_t* pen){
-
     const int sleepDuration = 0;
     const float mouthSidesRad = 5;
     const float mouthTopRad = 20;
@@ -147,13 +124,9 @@ void drawMouth(int factor,motor_t* left_m, motor_t* right_m, pen_t* pen){
     curveLeft(left_m,right_m,mouthSidesRad,140);
     usleep(sleepDuration);
     curveLeft(left_m,right_m,mouthTopRad,19);
-
-
-
 }
 
 void drawEars(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-
     static int sleepDuration= 2000000;
 
     move_pen_up(pen);
@@ -180,14 +153,6 @@ void drawEars(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
     move_pen_down(pen);
     curveLeft(left_m,right_m,1,250);
     move_pen_up(pen);
-    // usleep(sleepDuration);
-    // rotate_right(left_m,right_m,55);
-
-
-    
-    
-
-
 }
 
 
@@ -195,34 +160,20 @@ void drawEars(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
 
 
 void drawFace(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-
-
-
     //pixel/700 * 35
-    
-    
-
     //TODO: aus der mitter fahren
-
     kopfForm(factor,left_m,right_m,pen);
     drawEyes(factor,left_m,right_m,pen);
     drawNose(factor,left_m,right_m,pen);
     drawMouth(factor,left_m,right_m,pen);
     // drawEars(factor,left_m,right_m,pen);
-
-
-
-
 }
 
 
 int main(){
-
     gyro_t* gyro = create_gyro();
-
     motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_D);
     motor_t* right_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_A);
-
     pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
     
     
@@ -231,14 +182,10 @@ int main(){
     move_pen_down(pen);
     drawFace(1,left_m,right_m,pen);
     
-
     // move_pen_up(pen);
-
-
     remove_pen(pen);
     remove_motor(left_m);
     remove_motor(right_m);
-
     remove_gyro(gyro);
 
     return 0;
