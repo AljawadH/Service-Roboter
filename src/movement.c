@@ -16,7 +16,7 @@ static const int MOVE_RAMP_UP = 200;
 static const int MOVE_RAMP_DOWN = 200;
 
 static const float POS_FACTOR = 33.5;
-static const int MAX_SPEED_FACTOR = 5;
+static const float MAX_SPEED_FACTOR = 5;
 
 static const float ROT_POS_FACTOR = 5.17;
 
