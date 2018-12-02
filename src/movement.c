@@ -231,8 +231,9 @@ void curveRight(motor_t* left_m, motor_t* right_m, int rad, int deg) {
 
 
 
-    float peri_left = (2 * ((float)(rad + WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
-    float peri_right = (2 * ((float)(rad - WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
+    float peri_left = (2 * ((float)(rad + WEEL_DIST / 2)) * M_PI);
+    float peri_right = (2 * ((float)(rad - WEEL_DIST / 2)) * M_PI);
+
 
     // set_tacho_position_sp(left_m->sn, -1.0 * peri_left * (((float)deg) / 360.0));
     // set_tacho_position_sp(right_m->sn, -1.0 * peri_right * (((float)deg) / 360.0));
@@ -278,12 +279,12 @@ void curveRight(motor_t* left_m, motor_t* right_m, int rad, int deg) {
     do {
         get_tacho_state_flags(left_m->sn, &flag_left);
         get_tacho_state_flags(right_m->sn, &flag_right);
-        if(flag_left == TACHO_RAMPING) {
+        /*if(flag_left == TACHO_RAMPING) {
             set_tacho_command_inx(left_m->sn, TACHO_STOP);
         }
         if(flag_right == TACHO_RAMPING) {
             set_tacho_command_inx(right_m->sn, TACHO_STOP);
-        }
+        }*/
     } while (flag_left || flag_right);
 
     printf("curved rad=%d\tdeg=%d\n", rad, deg);
