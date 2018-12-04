@@ -88,7 +88,7 @@ void drawEyes(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
 
 void drawNose(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
 {
-    const float gerade = 6.7;
+    const float gerade = 6;
     const int sleepDuration = 0;
 
     move_pen_up(pen);
@@ -114,9 +114,9 @@ void drawMouth(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
     const float mouthTopRad = 20;
 
     //move_pen_up(pen);
-    curveLeft(left_m, right_m, 1 * factor, 210);
+    curveLeft(left_m, right_m, 1 * factor, 180);
     usleep(sleepDuration);
-    rotate_right(left_m, right_m, 120);
+    rotate_right(left_m, right_m, 90);
     move(left_m, right_m, 2);
     rotate_right(left_m, right_m, 93);
     usleep(sleepDuration);
