@@ -85,7 +85,7 @@ void drawEyes(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
 }
 
 void drawNose(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-    const float gerade = 6.5;
+    const float gerade = 7;
     const int sleepDuration = 0;
 
     move_pen_up(pen);
