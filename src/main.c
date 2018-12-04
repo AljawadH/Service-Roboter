@@ -27,8 +27,8 @@ void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen, gyro
 }
 
 void kopfForm(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-    const float curveDegree = 175.25;
-    const float curveNotDrawn = 25;
+    const float curveDegree = 172.25;
+    const float curveNotDrawn = 23;
     const float headHight = 12;
     const int sleepDuration = 0;
 
@@ -52,7 +52,7 @@ void kopfForm(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
 
 
 void drawEyes(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-    const float eyeDegree = 357;
+    const float eyeDegree = 355;
     const float eyeRadius = 3.925;
     const float turnLeft = 90;
     const int sleepDuration = 0;
