@@ -52,9 +52,9 @@ void kopfForm(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
 
 
 void drawEyes(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-    const float eyeDegree = 355;
+    const float eyeDegree = 345;
     const float eyeRadius = 3.925;
-    const float turnLeft = 90;
+    const float turnLeft = 80;
     const int sleepDuration = 0;
 
     move_pen_up(pen);
@@ -171,7 +171,6 @@ void drawFace(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
 
 
 int main(){
-    gyro_t* gyro = create_gyro();
     motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_D);
     motor_t* right_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_A);
     pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
@@ -186,7 +185,6 @@ int main(){
     remove_pen(pen);
     remove_motor(left_m);
     remove_motor(right_m);
-    remove_gyro(gyro);
 
     return 0;
 }
