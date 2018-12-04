@@ -19,14 +19,14 @@ motor_t* create_motor(INX_T type, uint8_t port);
 
 void remove_motor(motor_t* motor);
 
-void move(motor_t* left_m, motor_t* right_m, int dist);
+void move(motor_t* left_m, motor_t* right_m, float dist);
 
 void rotate_right(motor_t* left_m, motor_t* right_m, int deg);
 
 void rotate_left(motor_t* left_m, motor_t* right_m, int deg);
 
-void curveLeft(motor_t* left_m, motor_t* right_m, int rad, int deg);
-void curveRight(motor_t* left_m, motor_t* right_m, int rad, int deg);
+void curveLeft(motor_t* left_m, motor_t* right_m, float rad, int deg);
+void curveRight(motor_t* left_m, motor_t* right_m, float rad, int deg);
 
 
 #endif

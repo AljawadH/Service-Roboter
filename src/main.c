@@ -8,9 +8,8 @@
 #include "gyro_ctrl.h"
 #include <unistd.h>
 
-
-
-void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen) {
+void test_square(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
+{
 
     move_pen_down(pen);
     move(left_m, right_m, 5 * factor);
@@ -26,160 +25,165 @@ void test_square(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen) {
     move_pen_up(pen);
 }
 
-void kopfForm(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-    const float curveDegree = 172.25;
+void kopfForm(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
+{
+    const float curveDegree = 180;
     const float curveNotDrawn = 23;
     const float headHight = 12;
     const int sleepDuration = 0;
 
-    curveLeft(left_m,right_m,8*factor,curveDegree);
-    usleep(sleepDuration); 
-    move_pen_down(pen); 
-    move(left_m,right_m,headHight*factor);
-    usleep(sleepDuration); 
-    move_pen_down(pen); 
-    move_pen_up(pen);
-    curveLeft(left_m,right_m,8 * factor,curveNotDrawn);
     move_pen_down(pen);
-    curveLeft(left_m,right_m,8 * factor,curveDegree-2*curveNotDrawn);
-     move_pen_up(pen);
-    curveLeft(left_m,right_m,8 * factor,curveNotDrawn);
-    usleep(sleepDuration); 
-    move_pen_down(pen); 
-    move(left_m,right_m,headHight*factor);
+    usleep(500000);
+
+    curveLeft(left_m, right_m, 8 * factor, curveDegree);
+    usleep(sleepDuration);
+    move_pen_down(pen);
+    move(left_m, right_m, headHight * factor);
+    usleep(sleepDuration);
+    move_pen_down(pen);
+    move_pen_up(pen);
+    curveLeft(left_m, right_m, 8 * factor, curveNotDrawn);
+    move_pen_down(pen);
+    curveLeft(left_m, right_m, 8 * factor, curveDegree - (2 * curveNotDrawn));
+    move_pen_up(pen);
+    curveLeft(left_m, right_m, 8 * factor, curveNotDrawn);
+    usleep(sleepDuration);
+    move_pen_down(pen);
+    move(left_m, right_m, headHight * factor);
 }
 
-
-
-void drawEyes(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-    const float eyeDegree = 350;
-    const float eyeRadius = 3.925;
-    const float turnLeft = 80;
+void drawEyes(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
+{
+    const float eyeDegree = 358;
+    const float eyeRadius = 3.0;
+    const float turnLeft = 90;
     const int sleepDuration = 0;
 
     move_pen_up(pen);
-    move(left_m,right_m,-5*factor);
-    usleep(sleepDuration); 
-    move_pen_down(pen);
-    curveLeft(left_m,right_m,eyeRadius*factor,eyeDegree);
-    usleep(sleepDuration); 
-    move_pen_up(pen);
-    rotate_left(left_m,right_m,turnLeft);
+    move(left_m, right_m, -5 * factor);
     usleep(sleepDuration);
-    move(left_m,right_m,eyeRadius*factor);
+    move_pen_down(pen);
+    curveLeft(left_m, right_m, eyeRadius * factor, eyeDegree);
+    usleep(sleepDuration);
+    move_pen_up(pen);
+    rotate_left(left_m, right_m, turnLeft);
+    usleep(sleepDuration);
+    move(left_m, right_m, eyeRadius * factor);
     move_pen_down(pen);
     usleep(2000000); //dont remove
     move_pen_up(pen);
     usleep(sleepDuration);
-    move(left_m,right_m,eyeRadius*2*factor + 1);//TODO:
+    move(left_m, right_m, eyeRadius * 2 * factor + 1.9); //TODO:
     usleep(sleepDuration);
     move_pen_down(pen);
     usleep(2000000); //dont remove
     move_pen_up(pen);
-    move(left_m,right_m,eyeRadius*factor);
+    move(left_m, right_m, eyeRadius * factor);
     usleep(sleepDuration);
-    rotate_left(left_m,right_m,turnLeft);
+    rotate_left(left_m, right_m, turnLeft);
     usleep(sleepDuration);
     move_pen_down(pen);
-    curveLeft(left_m,right_m,eyeRadius*factor,eyeDegree);
+    curveLeft(left_m, right_m, eyeRadius * factor, eyeDegree);
 }
 
-void drawNose(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-    const float gerade = 7;
+void drawNose(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
+{
+    const float gerade = 6.7;
     const int sleepDuration = 0;
 
     move_pen_up(pen);
-    move(left_m,right_m,3*factor);
+    move(left_m, right_m, 3 * factor);
     usleep(sleepDuration);
-    rotate_left(left_m,right_m,90);
+    rotate_left(left_m, right_m, 90);
     usleep(sleepDuration);
-    move(left_m,right_m,gerade*factor);
+    move(left_m, right_m, gerade * factor);
     usleep(sleepDuration);
-    rotate_right(left_m,right_m, 150);
+    rotate_right(left_m, right_m, 120);
     usleep(sleepDuration);
     move_pen_down(pen);
     usleep(sleepDuration);
-    curveLeft(left_m,right_m,1*factor,300);
+    curveLeft(left_m, right_m, 1 * factor, 300);
+    move_pen_up(pen);
+    //rotate_left(left_m, right_m, 15);
 }
 
-void drawMouth(int factor,motor_t* left_m, motor_t* right_m, pen_t* pen){
+void drawMouth(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
+{
     const int sleepDuration = 0;
     const float mouthSidesRad = 5;
     const float mouthTopRad = 20;
 
-    move_pen_up(pen);
-    curveLeft(left_m,right_m,1*factor,210);
+    //move_pen_up(pen);
+    curveLeft(left_m, right_m, 1 * factor, 210);
     usleep(sleepDuration);
-    rotate_right(left_m,right_m,105);
-    move(left_m,right_m,2);
-    rotate_right(left_m,right_m,100);
+    rotate_right(left_m, right_m, 120);
+    move(left_m, right_m, 2);
+    rotate_right(left_m, right_m, 93);
     usleep(sleepDuration);
     move_pen_down(pen);
-    curveLeft(left_m,right_m,mouthTopRad,20);
+    curveLeft(left_m, right_m, mouthTopRad, 20);
     usleep(sleepDuration);
-    curveLeft(left_m,right_m,mouthSidesRad,140);
+    curveLeft(left_m, right_m, mouthSidesRad, 140);
     usleep(sleepDuration);
-    curveLeft(left_m,right_m,mouthTopRad,40);
+    curveLeft(left_m, right_m, mouthTopRad, 40);
     usleep(sleepDuration);
-    curveLeft(left_m,right_m,mouthSidesRad,140);
+    curveLeft(left_m, right_m, mouthSidesRad, 140);
     usleep(sleepDuration);
-    curveLeft(left_m,right_m,mouthTopRad,19);
+    curveLeft(left_m, right_m, mouthTopRad, 19);
 }
 
-void drawEars(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
-    static int sleepDuration= 2000000;
+void drawEars(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
+{
+    static int sleepDuration = 2000000;
 
     move_pen_up(pen);
-    rotate_right(left_m,right_m,100);
+    rotate_right(left_m, right_m, 100);
     usleep(sleepDuration);
-    move(left_m,right_m,4);
+    move(left_m, right_m, 4);
     usleep(sleepDuration);
-    rotate_left(left_m,right_m,90);
+    rotate_left(left_m, right_m, 90);
     usleep(sleepDuration);
-    move(left_m,right_m,3.925*2-0.5);
+    move(left_m, right_m, 3.0 * 2 - 0.5);
     usleep(sleepDuration);
-    rotate_right(left_m,right_m,35);
+    rotate_right(left_m, right_m, 35);
     usleep(sleepDuration);
     move_pen_down(pen);
-    curveLeft(left_m,right_m,1,250);
+    curveLeft(left_m, right_m, 1, 250);
     move_pen_up(pen);
     usleep(sleepDuration);
-    rotate_right(left_m,right_m,35);
+    rotate_right(left_m, right_m, 35);
     usleep(sleepDuration);
-    move(left_m,right_m,(3.925*2)*2);
+    move(left_m, right_m, (3.0 * 2) * 2);
     usleep(sleepDuration);
-    rotate_right(left_m,right_m,35);
+    rotate_right(left_m, right_m, 35);
     usleep(sleepDuration);
     move_pen_down(pen);
-    curveLeft(left_m,right_m,1,250);
+    curveLeft(left_m, right_m, 1, 250);
     move_pen_up(pen);
 }
 
-
-
-
-
-void drawFace(int factor, motor_t* left_m, motor_t* right_m, pen_t* pen){
+void drawFace(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
+{
     //pixel/700 * 35
     //TODO: aus der mitter fahren
-    kopfForm(factor,left_m,right_m,pen);
-    drawEyes(factor,left_m,right_m,pen);
-    drawNose(factor,left_m,right_m,pen);
-    drawMouth(factor,left_m,right_m,pen);
+    kopfForm(factor, left_m, right_m, pen);
+    drawEyes(factor, left_m, right_m, pen);
+    drawNose(factor, left_m, right_m, pen);
+    drawMouth(factor, left_m, right_m, pen);
+
+    move_pen_up(pen);
+
     // drawEars(factor,left_m,right_m,pen);
 }
 
+int main()
+{
+    motor_t *left_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_D);
+    motor_t *right_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_A);
+    pen_t *pen = create_pen(LEGO_EV3_M_MOTOR);
 
-int main(){
-    motor_t* left_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_D);
-    motor_t* right_m = create_motor(LEGO_EV3_L_MOTOR, OUTPUT_A);
-    pen_t* pen = create_pen(LEGO_EV3_M_MOTOR);
-    
-    
+    drawFace(1, left_m, right_m, pen);
 
-    //test_square(2, left_m, right_m, pen, gyro);
-    move_pen_down(pen);
-    drawFace(1,left_m,right_m,pen);
     //test_square(1, left_m, right_m, pen);
     // move_pen_up(pen);
 

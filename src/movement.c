@@ -51,7 +51,7 @@ void remove_motor(motor_t* motor) {
     free(motor);
 }
 
-void move(motor_t* left_m, motor_t* right_m, int dist) {
+void move(motor_t* left_m, motor_t* right_m, float dist) {
 
     // set_tacho_stop_action_inx(left_m->sn,TACHO_BRAKE);
     // set_tacho_stop_action_inx(right_m->sn,TACHO_BRAKE);
@@ -85,7 +85,7 @@ void move(motor_t* left_m, motor_t* right_m, int dist) {
         }
     } while (flag_left || flag_right);
 
-    printf("moved rel distance=%d\n", dist);
+    printf("moved rel distance=%f\n", dist);
 }
 
 
@@ -225,7 +225,7 @@ void rotate_right(motor_t* left_m, motor_t* right_m, int deg) {
 
 
 
-void curveRight(motor_t* left_m, motor_t* right_m, int rad, int deg) {
+void curveRight(motor_t* left_m, motor_t* right_m, float rad, int deg) {
 
     //float degreeOffset = 11/12;
 
@@ -287,11 +287,11 @@ void curveRight(motor_t* left_m, motor_t* right_m, int rad, int deg) {
         }*/
     } while (flag_left || flag_right);
 
-    printf("curved rad=%d\tdeg=%d\n", rad, deg);
+    printf("curved rad=%f\tdeg=%d\n", rad, deg);
 }
 
 
-void curveLeft(motor_t* left_m, motor_t* right_m, int rad, int deg) {
+void curveLeft(motor_t* left_m, motor_t* right_m, float rad, int deg) {
 
     //float degreeOffset = 11/12;
 
@@ -299,6 +299,9 @@ void curveLeft(motor_t* left_m, motor_t* right_m, int rad, int deg) {
 
     float peri_left = (2 * ((float)(rad + WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
     float peri_right = (2 * ((float)(rad - WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
+
+    peri_left *= 0.97;
+    peri_right *=0.97;
 
     // set_tacho_position_sp(left_m->sn, -1.0 * peri_left * (((float)deg) / 360.0));
     // set_tacho_position_sp(right_m->sn, -1.0 * peri_right * (((float)deg) / 360.0));
@@ -352,66 +355,5 @@ void curveLeft(motor_t* left_m, motor_t* right_m, int rad, int deg) {
         }
     } while (flag_left || flag_right);
 
-    printf("curved rad=%d\tdeg=%d\n", rad, deg);
+    printf("curved rad=%f\tdeg=%d\n", rad, deg);
 }
-
-
-
-
-
-
-// void curveLeft(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
-//     int speedTeiler=20;
-//     float nullRad= 10.2;
-
-//     if(rad<=0){return;}
-//     if (rad<nullRad){
-//         float linkesRad = (rad-nullRad) * -1;
-//         float rechtesRad = rad + nullRad;
-//         set_tacho_speed_sp(left->sn, (left->max_speed/speedTeiler * linkesRad) * -1);
-//         set_tacho_speed_sp(right->sn, right->max_speed/speedTeiler * rechtesRad);
-//         tacho_run_forever(left->sn);
-//         tacho_run_forever(right->sn);
-//         sleep(2000); //gyro abbruch TODO
-//         tacho_stop(left->sn);
-//         tacho_stop(right->sn);
-//     }else if(rad>nullRad){
-//         float linkesRad = rad-nullRad;
-//         float rechtesRad = rad + nullRad;
-//         set_tacho_speed_sp(left->sn, left->max_speed/speedTeiler * linkesRad);
-//         set_tacho_speed_sp(right->sn, right->max_speed/speedTeiler * rechtesRad);
-//         tacho_run_forever(left->sn);
-//         tacho_run_forever(right->sn);
-//         sleep(2000); //gyro abbruch TODO
-//         tacho_stop(left->sn);
-//         tacho_stop(right->sn);
-//     }
-// }
-
-// void curveRight(motor_t* left, motor_t* right, uint8_t rad, int16_t deg) {
-//     int speedTeiler=20;
-//     float nullRad= 10.2;
-
-//     if(rad<=0){return;}
-//     if (rad<nullRad){
-//         float rechtesRad = (rad-nullRad);
-//         float linkesRad = rad + nullRad;
-//         set_tacho_speed_sp(left->sn, left->max_speed/speedTeiler * linkesRad);
-//         set_tacho_speed_sp(right->sn, right->max_speed/speedTeiler * rechtesRad);
-//         tacho_run_forever(left->sn);
-//         tacho_run_forever(right->sn);
-//         sleep(2000); //gyro abbruch TODO
-//         tacho_stop(left->sn);
-//         tacho_stop(right->sn);
-//     }else if(rad>nullRad){
-//         float rechtesRad = rad-nullRad;
-//         float linkesRad = rad + nullRad;
-//         set_tacho_speed_sp(left->sn, left->max_speed/speedTeiler * linkesRad);
-//         set_tacho_speed_sp(right->sn, right->max_speed/speedTeiler * rechtesRad);
-//         tacho_run_forever(left->sn);
-//         tacho_run_forever(right->sn);
-//         sleep(2000); //gyro abbruch TODO
-//         tacho_stop(left->sn);
-//         tacho_stop(right->sn);  
-//     }
-// }
