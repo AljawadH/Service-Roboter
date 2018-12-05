@@ -54,7 +54,7 @@ void kopfForm(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
 
 void drawEyes(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
 {
-    const float eyeDegree = 358;
+    const float eyeDegree = 365;
     const float eyeRadius = 3.0;
     const float turnLeft = 90;
     const int sleepDuration = 0;
@@ -118,7 +118,7 @@ void drawMouth(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
     usleep(sleepDuration);
     rotate_right(left_m, right_m, 90);
     move(left_m, right_m, 2);
-    rotate_right(left_m, right_m, 93);
+    rotate_right(left_m, right_m, 89);
     usleep(sleepDuration);
     move_pen_down(pen);
     curveLeft(left_m, right_m, mouthTopRad, 20);

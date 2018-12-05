@@ -289,8 +289,8 @@ void curveLeft(motor_t *left_m, motor_t *right_m, float rad, int deg)
     float peri_left = (2 * ((float)(rad + WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
     float peri_right = (2 * ((float)(rad - WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
 
-    peri_left *= 0.965;
-    peri_right *= 0.965;
+    peri_left *= 0.96;
+    peri_right *= 0.96;
 
     // set_tacho_position_sp(left_m->sn, -1.0 * peri_left * (((float)deg) / 360.0));
     // set_tacho_position_sp(right_m->sn, -1.0 * peri_right * (((float)deg) / 360.0));
