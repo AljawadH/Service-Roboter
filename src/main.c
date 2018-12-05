@@ -173,7 +173,8 @@ void drawFace(int factor, motor_t *left_m, motor_t *right_m, pen_t *pen)
 
     move_pen_up(pen);
 
-    // drawEars(factor,left_m,right_m,pen);
+    rotate_left(left_m, right_m, 90);
+    move(left_m, right_m, 10);
 }
 
 int main()

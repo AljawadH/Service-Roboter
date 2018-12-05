@@ -22,21 +22,19 @@ static const float ROT_POS_FACTOR = 5.17;
 
 static const int MAX_ROT_DEG = 360;
 
-
 static const float WEEL_DIST = 18.5;
 
+motor_t *create_motor(INX_T type, uint8_t port)
+{
 
-motor_t* create_motor(INX_T type, uint8_t port) {
-
-    if(ev3_tacho_init() == -1) {
+    if (ev3_tacho_init() == -1)
+    {
         printf("motor could not be created -- no tacho motor found\n");
         return NULL;
     }
 
-    motor_t* motor = (motor_t*) malloc(sizeof(motor_t));
+    motor_t *motor = (motor_t *)malloc(sizeof(motor_t));
 
-
-    
     ev3_search_tacho_plugged_in(port, EXT_PORT__NONE_, &(motor->sn), 0);
     get_tacho_max_speed(motor->sn, &(motor->max_speed));
 
@@ -45,17 +43,18 @@ motor_t* create_motor(INX_T type, uint8_t port) {
     printf("motor initialized\n");
 
     return motor;
-}    
+}
 
-void remove_motor(motor_t* motor) {
+void remove_motor(motor_t *motor)
+{
     free(motor);
 }
 
-void move(motor_t* left_m, motor_t* right_m, float dist) {
+void move(motor_t *left_m, motor_t *right_m, float dist)
+{
 
     // set_tacho_stop_action_inx(left_m->sn,TACHO_BRAKE);
     // set_tacho_stop_action_inx(right_m->sn,TACHO_BRAKE);
-
 
     set_tacho_position_sp(left_m->sn, -dist * POS_FACTOR);
     set_tacho_speed_sp(left_m->sn, left_m->max_speed / MAX_SPEED_FACTOR);
@@ -67,20 +66,21 @@ void move(motor_t* left_m, motor_t* right_m, float dist) {
     set_tacho_ramp_up_sp(right_m->sn, MOVE_RAMP_UP);
     set_tacho_ramp_down_sp(right_m->sn, MOVE_RAMP_DOWN);
 
-
     set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
     set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
 
-
     FLAGS_T flag_left;
     FLAGS_T flag_right;
-    do {
+    do
+    {
         get_tacho_state_flags(left_m->sn, &flag_left);
         get_tacho_state_flags(right_m->sn, &flag_right);
-        if(flag_left == TACHO_RAMPING) {
+        if (flag_left == TACHO_RAMPING)
+        {
             set_tacho_command_inx(left_m->sn, TACHO_STOP);
         }
-        if(flag_right == TACHO_RAMPING) {
+        if (flag_right == TACHO_RAMPING)
+        {
             set_tacho_command_inx(right_m->sn, TACHO_STOP);
         }
     } while (flag_left || flag_right);
@@ -88,8 +88,8 @@ void move(motor_t* left_m, motor_t* right_m, float dist) {
     printf("moved rel distance=%f\n", dist);
 }
 
-
-void rotate(motor_t* left_m, motor_t* right_m, int deg) {
+void rotate(motor_t *left_m, motor_t *right_m, int deg)
+{
 
     set_tacho_position_sp(left_m->sn, deg * ROT_POS_FACTOR);
     set_tacho_speed_sp(left_m->sn, left_m->max_speed / MAX_SPEED_FACTOR);
@@ -101,32 +101,27 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg) {
     set_tacho_ramp_up_sp(right_m->sn, MOVE_RAMP_UP);
     set_tacho_ramp_down_sp(right_m->sn, MOVE_RAMP_DOWN);
 
-    
-
     set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
     set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
 
-    
-
-
     FLAGS_T flag_left;
     FLAGS_T flag_right;
-    do {
+    do
+    {
         get_tacho_state_flags(left_m->sn, &flag_left);
         get_tacho_state_flags(right_m->sn, &flag_right);
-        if(flag_left == TACHO_RAMPING) {
+        if (flag_left == TACHO_RAMPING)
+        {
             set_tacho_command_inx(left_m->sn, TACHO_STOP);
         }
-        if(flag_right == TACHO_RAMPING) {
+        if (flag_right == TACHO_RAMPING)
+        {
             set_tacho_command_inx(right_m->sn, TACHO_STOP);
         }
     } while (flag_left || flag_right);
 
     printf("roteted degrees=%d\n", deg);
-
-    
 }
-
 
 /*void rotate(motor_t* left_m, motor_t* right_m, int deg, gyro_t* gyro) {
 
@@ -206,39 +201,37 @@ void rotate(motor_t* left_m, motor_t* right_m, int deg) {
     
 }
 */
-void rotate_left(motor_t* left_m, motor_t* right_m, int deg) {
+void rotate_left(motor_t *left_m, motor_t *right_m, int deg)
+{
 
-    if(deg <= 0) {
+    if (deg <= 0)
+    {
         deg = -deg;
     }
     rotate(left_m, right_m, deg);
-
 }
 
-void rotate_right(motor_t* left_m, motor_t* right_m, int deg) {
+void rotate_right(motor_t *left_m, motor_t *right_m, int deg)
+{
 
-    if(deg >= 0) deg = -deg;
+    if (deg >= 0)
+        deg = -deg;
 
     rotate(left_m, right_m, deg);
 }
 
-
-
-
-void curveRight(motor_t* left_m, motor_t* right_m, float rad, int deg) {
+void curveRight(motor_t *left_m, motor_t *right_m, float rad, int deg)
+{
 
     //float degreeOffset = 11/12;
-
-
 
     float peri_left = (2 * ((float)(rad + WEEL_DIST / 2)) * M_PI);
     float peri_right = (2 * ((float)(rad - WEEL_DIST / 2)) * M_PI);
 
-
     // set_tacho_position_sp(left_m->sn, -1.0 * peri_left * (((float)deg) / 360.0));
     // set_tacho_position_sp(right_m->sn, -1.0 * peri_right * (((float)deg) / 360.0));
 
-    float ms = (1.0 * peri_left * (((float)deg) / 360.0))/(left_m->max_speed/2)*1000;
+    float ms = (1.0 * peri_left * (((float)deg) / 360.0)) / (left_m->max_speed / 2) * 1000;
 
     set_tacho_ramp_up_sp(left_m->sn, 0);
     set_tacho_ramp_up_sp(right_m->sn, 0);
@@ -248,14 +241,11 @@ void curveRight(motor_t* left_m, motor_t* right_m, float rad, int deg) {
     set_tacho_stop_action_inx(left_m->sn, TACHO_BRAKE);
     set_tacho_stop_action_inx(right_m->sn, TACHO_BRAKE);
 
+    set_tacho_time_sp(left_m->sn, ms);
+    set_tacho_time_sp(right_m->sn, ms);
 
-    set_tacho_time_sp( left_m->sn, ms);
-    set_tacho_time_sp( right_m->sn, ms);
-
-    
-
-    set_tacho_speed_sp(left_m->sn,-1.0* (float)left_m->max_speed/2);// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_left / 2));
-    set_tacho_speed_sp(right_m->sn,-1.0* (float)left_m->max_speed/((float)(peri_left/peri_right)*2.0));// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_right / 2));
+    set_tacho_speed_sp(left_m->sn, -1.0 * (float)left_m->max_speed / 2);                                        // (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_left / 2));
+    set_tacho_speed_sp(right_m->sn, -1.0 * (float)left_m->max_speed / ((float)(peri_left / peri_right) * 2.0)); // (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_right / 2));
 
     int speed_left;
     int speed_right;
@@ -266,17 +256,18 @@ void curveRight(motor_t* left_m, motor_t* right_m, float rad, int deg) {
 
     get_tacho_position_sp(left_m->sn, &distance_left);
     get_tacho_position_sp(right_m->sn, &distance_right);
-    printf("time: %f\n",ms);
+    printf("time: %f\n", ms);
     //printf("max motor speed=%d\nspeed_left=%d\nspeed_right=%d\ndistance_left=%d\ndistance_right=%d\n", left_m->max_speed, speed_left, speed_right, distance_left, distance_right);
     // set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
     // set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
 
-    set_tacho_command_inx( left_m->sn, TACHO_RUN_TIMED );
-    set_tacho_command_inx( right_m->sn, TACHO_RUN_TIMED );
+    set_tacho_command_inx(left_m->sn, TACHO_RUN_TIMED);
+    set_tacho_command_inx(right_m->sn, TACHO_RUN_TIMED);
 
     FLAGS_T flag_left;
     FLAGS_T flag_right;
-    do {
+    do
+    {
         get_tacho_state_flags(left_m->sn, &flag_left);
         get_tacho_state_flags(right_m->sn, &flag_right);
         /*if(flag_left == TACHO_RAMPING) {
@@ -290,23 +281,21 @@ void curveRight(motor_t* left_m, motor_t* right_m, float rad, int deg) {
     printf("curved rad=%f\tdeg=%d\n", rad, deg);
 }
 
-
-void curveLeft(motor_t* left_m, motor_t* right_m, float rad, int deg) {
+void curveLeft(motor_t *left_m, motor_t *right_m, float rad, int deg)
+{
 
     //float degreeOffset = 11/12;
-
-
 
     float peri_left = (2 * ((float)(rad + WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
     float peri_right = (2 * ((float)(rad - WEEL_DIST / 2)) * M_PI) * POS_FACTOR;
 
-    peri_left *= 0.97;
-    peri_right *=0.97;
+    peri_left *= 0.965;
+    peri_right *= 0.965;
 
     // set_tacho_position_sp(left_m->sn, -1.0 * peri_left * (((float)deg) / 360.0));
     // set_tacho_position_sp(right_m->sn, -1.0 * peri_right * (((float)deg) / 360.0));
 
-    float ms = (1.0 * peri_left * (((float)deg) / 360.0))/(left_m->max_speed/2)*1000;
+    float ms = (1.0 * peri_left * (((float)deg) / 360.0)) / (left_m->max_speed / 2) * 1000;
 
     set_tacho_ramp_up_sp(left_m->sn, 0);
     set_tacho_ramp_up_sp(right_m->sn, 0);
@@ -316,14 +305,11 @@ void curveLeft(motor_t* left_m, motor_t* right_m, float rad, int deg) {
     set_tacho_stop_action_inx(left_m->sn, TACHO_BRAKE);
     set_tacho_stop_action_inx(right_m->sn, TACHO_BRAKE);
 
+    set_tacho_time_sp(left_m->sn, ms);
+    set_tacho_time_sp(right_m->sn, ms);
 
-    set_tacho_time_sp( left_m->sn, ms);
-    set_tacho_time_sp( right_m->sn, ms);
-
-    
-
-    set_tacho_speed_sp(right_m->sn,-1.0* (float)left_m->max_speed/2);// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_left / 2));
-    set_tacho_speed_sp(left_m->sn,-1.0* (float)left_m->max_speed/((float)(peri_left/peri_right)*2.0));// (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_right / 2));
+    set_tacho_speed_sp(right_m->sn, -1.0 * (float)left_m->max_speed / 2);                                      // (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_left / 2));
+    set_tacho_speed_sp(left_m->sn, -1.0 * (float)left_m->max_speed / ((float)(peri_left / peri_right) * 2.0)); // (float)(left_m->max_speed / (peri_left > peri_right ? peri_left : peri_right) * peri_right / 2));
 
     int speed_left;
     int speed_right;
@@ -334,23 +320,26 @@ void curveLeft(motor_t* left_m, motor_t* right_m, float rad, int deg) {
 
     get_tacho_position_sp(left_m->sn, &distance_left);
     get_tacho_position_sp(right_m->sn, &distance_right);
-    printf("time: %f\n",ms);
+    printf("time: %f\n", ms);
     //printf("max motor speed=%d\nspeed_left=%d\nspeed_right=%d\ndistance_left=%d\ndistance_right=%d\n", left_m->max_speed, speed_left, speed_right, distance_left, distance_right);
     // set_tacho_command_inx(left_m->sn, TACHO_RUN_TO_REL_POS);
     // set_tacho_command_inx(right_m->sn, TACHO_RUN_TO_REL_POS);
 
-    set_tacho_command_inx( left_m->sn, TACHO_RUN_TIMED );
-    set_tacho_command_inx( right_m->sn, TACHO_RUN_TIMED );
+    set_tacho_command_inx(left_m->sn, TACHO_RUN_TIMED);
+    set_tacho_command_inx(right_m->sn, TACHO_RUN_TIMED);
 
     FLAGS_T flag_left;
     FLAGS_T flag_right;
-    do {
+    do
+    {
         get_tacho_state_flags(left_m->sn, &flag_left);
         get_tacho_state_flags(right_m->sn, &flag_right);
-        if(flag_left == TACHO_RAMPING) {
+        if (flag_left == TACHO_RAMPING)
+        {
             set_tacho_command_inx(left_m->sn, TACHO_STOP);
         }
-        if(flag_right == TACHO_RAMPING) {
+        if (flag_right == TACHO_RAMPING)
+        {
             set_tacho_command_inx(right_m->sn, TACHO_STOP);
         }
     } while (flag_left || flag_right);
